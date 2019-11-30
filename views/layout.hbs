@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>WeMeet</title>
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="shortcut icon" type="image/png" href="/images/granada-icon.png"/>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/index.js"></script>
+  </head>
+
+  <body>
+    {{>navbar}}
+    <div class="container mt-5 pb-5">
+      {{>alert}}
+      {{{body}}}
+    </div>
+  </body>
+
+</html>
