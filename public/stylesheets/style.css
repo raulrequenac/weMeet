@@ -6,11 +6,53 @@
   red: #af5145
 */
 
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 .navbar {
   background-color: #053245;
+  -webkit-box-shadow: 0px 0px 19px 4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 19px 4px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 19px 4px rgba(0,0,0,0.75);
 }
 
-#navbar {
-
-  color: white;
+body {
+  background-color: #b8a597;
 }
+
+.line {
+  height: 25px;
+  border-bottom: 1px solid;
+}
+
+.general {
+  background-color: #af5145;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(122,55,47,1);
+  -moz-box-shadow: 0px 0px 7px 3px rgba(122,55,47,1);
+  box-shadow: 0px 0px 7px 3px rgba(122,55,47,1);
+}
+
+.section1 {
+  background-color: white;
+}
+
+.section2 {
+
+}
+
+.section3 {
+
+}
+
+.events {
+  background-color: #b8a597;
+  -webkit-box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
+  margin: 10px 0px;
+}
+
