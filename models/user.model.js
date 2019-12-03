@@ -37,9 +37,6 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [8, 'Password needs at last 8 chars']
   },
-  avatar: {
-    type: String,
-  },
   bio: {
     type: String
   },
@@ -53,7 +50,9 @@ const userSchema = new mongoose.Schema({
   },
   social: {
     google: String
-  }
+  }, 
+  image: [String], 
+  
 }, { timestamps: true })
 
 userSchema.pre('save', function (next) {
