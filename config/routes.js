@@ -12,5 +12,4 @@ router.get('/', eventsController.index)
 
 
 router.get('/users/new', usersController.new)
-router.post('/users/new', uploadCloud.array('images', 6), usersController.create)
-
+router.post('/users', uploadCloud.array('images', 6), usersController.create)
