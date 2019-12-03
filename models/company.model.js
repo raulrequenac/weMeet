@@ -67,6 +67,12 @@ companySchema.pre('save', function (next) {
 companySchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
+companySchema.virtual('events', {
+  ref: 'Event',
+  localField: '_id',
+  foreignField: 'company',
+  justOne: false,
+});
 
 const Company = mongoose.model('Company', companySchema);
 
