@@ -27,9 +27,12 @@ const eventSchema = new mongoose.Schema({
   }, 
 }, { timestamps: true })
 
-
-
-
+eventSchema.virtual('enroll', {
+  ref: 'Enroll',
+  localField: '_id',
+  foreignField: 'event',
+  justOne: false,
+});
 
 const Event = mongoose.model('Event', eventSchema);
 
