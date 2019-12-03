@@ -52,9 +52,8 @@ const userSchema = new mongoose.Schema({
     default: true
   },
   social: {
-    google: String,
-    facebook: String
-  },
+    google: String
+  }
 }, { timestamps: true })
 
 userSchema.pre('save', function (next) {
