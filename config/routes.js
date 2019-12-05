@@ -13,3 +13,7 @@ router.get('/', eventsController.index)
 
 router.get('/users/new', usersController.new)
 router.post('/users', uploadCloud.array('images', 6), usersController.create)
+
+router.get('/login', usersController.login)
+router.post('/login', usersController.doLogin)
+

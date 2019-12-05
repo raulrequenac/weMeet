@@ -45,3 +45,31 @@ module.exports.create = (req, res, next) => {
       }
     })
 }
+
+module.exports.login = (req, res, next) => {
+  res.render('users/login')
+}
+
+module.exports.doLogin = (req, res, next) => {
+  const {email, password} = req.body;
+  if (!email || !password) {
+    return res.render('users/login', {user:req.body})
+  } 
+  User.findOne( {email:email, validated:true})
+    .then(user => {
+      if (!user) {
+        res.render('users/login', {user:req.body})
+      } else {
+        return user.checkPassword (password)
+          .then (match => {
+            if (!match) {
+              res.render('users/login', {user:req.body})
+            } else {
+              req.session.user = user 
+              res.redirect('/')
+            }
+          })
+      }
+    }) 
+    .catch(next)
+}

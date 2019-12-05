@@ -12,6 +12,15 @@
   border: 0;
 }
 
+.light-blue {
+  background-color: #3cadbd !important;
+  border-color:  #3cadbd !important;
+}
+
+.light-blue-text {
+  color: #3cadbd !important;
+}
+
 .navbar {
   background-color: #053245;
   -webkit-box-shadow: 0px 0px 19px 4px rgba(0,0,0,0.75);
