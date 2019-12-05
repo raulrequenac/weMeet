@@ -21,6 +21,7 @@
 
 body {
   background-color: #b8a597;
+  margin-top: 80px;
 }
 
 .line {
@@ -56,3 +57,6 @@ box-shadow: 0px 0px 17px 1px rgba(0,0,0,0.75);
   margin: 10px 0px;
 }
 
+#div-navbar {
+  width: 100%;
+}
