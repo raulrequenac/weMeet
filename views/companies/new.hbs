@@ -1,0 +1,65 @@
+<form action="/companies" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
+      placeholder="Enter name" value="{{ user.name }}">
+
+    {{#if error.name}}
+      <div class="invalid-feedback">
+        {{error.name.message}}
+      </div>
+    {{/if}}
+  </div>
+
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
+      placeholder="Enter email" value="{{ user.email }}">
+
+    {{#if error.email}}
+      <div class="invalid-feedback">
+        {{error.email.message}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+    <label for="Logo">Logo</label>
+    <input name="Logo" type="file" class="form-control-file {{#if error.Logo }}is-invalid{{/if}}" id="Logo"
+      placeholder="Enter Logo url">
+    {{#if error.Logo}}
+      <div class="invalid-feedback">
+        {{error.Logo.message}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}" id="password"
+      placeholder="password" value="{{ user.password }}">
+
+    {{#if error.password}}
+      <div class="invalid-feedback">
+        {{error.password.message}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea name="description" type="text" class="form-control {{#if error.description }}is-invalid{{/if}}" id="description"
+      placeholder="Enter description" value="{{ user.description }}" rows="4"></textarea>
+
+    {{#if error.description}}
+      <div class="invalid-feedback">
+        {{error.description.message}}
+      </div>
+    {{/if}}
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    Sign up
+  </button>
+</form>

@@ -1,40 +1,40 @@
 const mongoose = require('mongoose');
-const User = require('../models/user.model');
+const Company = require('../models/company.model');
 const mailer = require('../config/mailer.config');
 
 module.exports.new = (_, res) => {
-  res.render('users/new', {
-    user: new User()
+  res.render('companies/new', {
+    company: new Company()
   })
 }
 
 module.exports.create = (req, res, next) => {
-  const user = new User({
+  const company = new company({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    bio: req.body.bio,
-    images: req.files.map(file => file.url)
+    description: req.body.description,
+    logo: req.file ? req.file.url : undefined
   })
 
-  user.save()
-    .then((user) => {
-      mailer.sendValidateEmail(user)
+  company.save()
+    .then((company) => {
+      mailer.sendValidateEmail(company)
       res.redirect('/')
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render('users/new', {
-          user,
+        res.render('companies/new', {
+          company,
           error: error.errors
         })
       } else if (error.code === 11000) {
         res.render('/', {
-          user: {
-            ...user,
+          company: {
+            ...company,
             password: null
           },
-          genericError: 'User exists'
+          genericError: 'company exists'
         })
       } else {
         next(error);
@@ -43,25 +43,25 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.login = (req, res, next) => {
-  res.render('users/login')
+  res.render('companies/login')
 }
 
 module.exports.doLogin = (req, res, next) => {
   const {email, password} = req.body;
   if (!email || !password) {
-    return res.render('users/login', {user:req.body})
+    return res.render('companies/login', {company:req.body})
   } 
-  User.findOne( {email:email, validated:true})
-    .then(user => {
-      if (!user) {
-        res.render('users/login', {user:req.body})
+  company.findOne( {email:email, validated:true})
+    .then(company => {
+      if (!company) {
+        res.render('companies/login', {company:req.body})
       } else {
-        return user.checkPassword (password)
+        return company.checkPassword (password)
           .then (match => {
             if (!match) {
-              res.render('users/login', {user:req.body})
+              res.render('companies/login', {company:req.body})
             } else {
-              req.session.user = user 
+              req.session.company = company 
               res.redirect('/')
             }
           })
