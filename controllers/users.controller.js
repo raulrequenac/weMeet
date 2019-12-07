@@ -81,3 +81,8 @@ module.exports.doSocialLogin = (req, res, next) => {
     }
   })(req, res, next);
 }
+
+module.exports.logout = (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+}

@@ -10,23 +10,25 @@ const router = express.Router();
 
 module.exports = router;
 
-router.get('/', (_, res) => {
-  res.render('events/index')
-})
+router.get('/', authMiddleware.isAuthenticated, (_, res) => {res.render('events/index')})
 
-router.get('/users/new', usersController.new)
-router.post('/users', uploadCloud.array('images', 6), usersController.create)
+//Create a new user or Company
+router.get('/users/new', authMiddleware.isNotAuthenticated, usersController.new)
+router.post('/users', authMiddleware.isNotAuthenticated, uploadCloud.array('images', 6), usersController.create)
+router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
+router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 
-router.get('/companies/new', companiesController.new)
-router.post('/companies', uploadCloud.single('logo'), companiesController.create)
+// Login Front 
+router.get('/login', authMiddleware.isNotAuthenticated, (_, res) => {res.render('login/index')})
+// Login a user  
+router.get('/login/users', authMiddleware.isNotAuthenticated, usersController.login)
+router.post('/login/users', authMiddleware.isNotAuthenticated, usersController.doLogin)
+// Login a new user with Google
+router.post('/auth/google', authMiddleware.isNotAuthenticated, passport.authenticate('google-auth', { scope: ['openid', 'profile', 'email'] }))
+router.get('/auth/google/callback', authMiddleware.isNotAuthenticated, usersController.doSocialLogin)
+// Login a Company   
+router.get('/login/companies', authMiddleware.isNotAuthenticated, companiesController.login)
+router.post('/login/companies', authMiddleware.isNotAuthenticated, companiesController.doLogin)
 
-router.get('/login', (_, res) => {
-  res.render('login/index')
-});
-router.get('/login/users', usersController.login)
-router.post('/login/users', usersController.doLogin)
-router.get('/login/companies', companiesController.login)
-router.post('/login/companies', companiesController.doLogin)
-
-router.get('/auth/google', passport.authenticate('google-auth', { scope: ['openid', 'profile', 'email'] }))
-router.get('/auth/google/callback', usersController.doSocialLogin)
+//logout
+router.post('/logout', authMiddleware.isAuthenticated, usersController.logout)
