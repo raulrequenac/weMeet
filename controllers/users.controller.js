@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
 const mailer = require('../config/mailer.config');
+const passport = require('passport')
 
 module.exports.new = (_, res) => {
   res.render('users/new', {
@@ -68,4 +69,15 @@ module.exports.doLogin = (req, res, next) => {
       }
     }) 
     .catch(next)
+}
+
+module.exports.doSocialLogin = (req, res, next) => {
+  passport.authenticate('google-auth', (error, user) => {
+    if (error) {
+      next(error);
+    } else {
+      req.session.user = user;
+      res.redirect('/')
+    }
+  })(req, res, next);
 }

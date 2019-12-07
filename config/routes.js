@@ -4,6 +4,8 @@ const usersController = require('../controllers/users.controller');
 const companiesController = require('../controllers/companies.controller');
 const eventsController = require('../controllers/events.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
+const passport = require('passport');
+
 const router = express.Router();
 
 module.exports = router;
@@ -25,3 +27,6 @@ router.get('/login/users', usersController.login)
 router.post('/login/users', usersController.doLogin)
 router.get('/login/companies', companiesController.login)
 router.post('/login/companies', companiesController.doLogin)
+
+router.get('/auth/google', passport.authenticate('google-auth', { scope: ['openid', 'profile', 'email'] }))
+router.get('/auth/google/callback', usersController.doSocialLogin)

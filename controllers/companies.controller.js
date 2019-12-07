@@ -9,7 +9,7 @@ module.exports.new = (_, res) => {
 }
 
 module.exports.create = (req, res, next) => {
-  const company = new company({
+  const company = new Company({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
@@ -51,7 +51,7 @@ module.exports.doLogin = (req, res, next) => {
   if (!email || !password) {
     return res.render('companies/login', {company:req.body})
   } 
-  company.findOne( {email:email, validated:true})
+  Company.findOne( {email:email, validated:true})
     .then(company => {
       if (!company) {
         res.render('companies/login', {company:req.body})
