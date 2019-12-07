@@ -7,7 +7,7 @@
 						<img src="/images/granada-icon.png" class="brand_logo" alt="Logo"  width="200">
 					</div>
 				</div>
-				<div class="d-flex justify-content-center form_container">
+				<div class="d-flex flex-column form_container">
 					<form action="/login/users" method="post">
 						<div class="input-group mb-3">
 							<div class="input-group-append">
@@ -19,16 +19,25 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="password" class="form-control input_pass" value="{{user.password}}" placeholder="password">
+							<input type="password" id="password" name="password" class="form-control input_pass" value="{{user.password}}" placeholder="password">
+							<div class="input-group-append">
+								<button  type="button" id="toggle-password" class="input-group-text" >
+									<i class="far fa-eye"></i>
+								</button>
+							</div>
 						</div>
             <div class="d-flex justify-content-center mt-3 login_container">
 				 	    <button type="submit" name="button" class="btn btn-primary light-blue">Login</button>
 				    </div>
-  					<div class="d-flex justify-content-center mt-3 login_container">
-    					<a href="/auth/google" class="btn btn-primary light-blue">Login With Google</a>
-  					</div>
-
 					</form>
+					<div class="d-flex justify-content-center mt-3 login_container">
+						<form action="/auth/google" method="post">
+							<button type="submit" name="button" class="btn btn-primary light-blue">
+								<i class="fa fa-google"></i>
+								Login With Google
+							</button>
+						</form>
+					</div>
 				</div>
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">

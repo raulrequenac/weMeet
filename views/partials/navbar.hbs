@@ -4,14 +4,22 @@
       <a class="navbar-brand container d-flex align-items-center" href="/">
         <img src="/images/granada-icon.png" alt="icon" width="50" height="50" class="d-inline-block align-top">
         <div class="pt-2"><strong>We</strong>Meet</div>
-      </a>>
+      </a>
       <div class="dropdown show d-flex align-items-center">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img src="/images/granada-icon.png" alt="avatar" width="50" height="50" class="d-inline-block align-top">
-        </a>
+        </button>
+
         <div class="dropdown-menu" id="drop" aria-labelledby="dropdownMenuLink">
-          <a href="#" class="dropdown-item">Profile</a>
-          <a href="/users/logout" class="dropdown-item">Logout</a>
+          <li class="dropdown-item">
+            <a href="#">Profile</a>
+          </li>
+
+          <li class="dropdown-item">
+            <form action="/logout" method="post">
+              <button type="submit">Logout</button>
+            </form>
+          </li>
         </div>
       </div>
     </div>
