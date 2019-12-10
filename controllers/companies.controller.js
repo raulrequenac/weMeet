@@ -69,3 +69,14 @@ module.exports.doLogin = (req, res, next) => {
     }) 
     .catch(next)
 }
+
+module.exports.doSocialLogin = (req, res, next) => {
+  passport.authenticate('google-companies', (error, company) => {
+    if (error) {
+      next(error);
+    } else {
+      req.session.user = company;
+      res.redirect('/')
+    }
+  })(req, res, next);
+}
