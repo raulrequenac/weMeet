@@ -12,3 +12,9 @@ hbs.registerHelper('date', (date) => {
 hbs.registerHelper('profileImage', (user) => {
   return user.logo || user.images[0];
 })
+
+hbs.registerHelper('getProfileUrl', (user) => {
+  console.log(user)
+  console.log(user.rol)
+  return user.rol === "user" ? "/users/profile" : "/companies/profile";
+})

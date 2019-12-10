@@ -10,15 +10,47 @@ const router = express.Router();
 
 module.exports = router;
 
-router.get('/', authMiddleware.isAuthenticated, (_, res) => {res.render('events/index')})
 
-//Create a new user or Company
+/*
+  Users
+*/
+//Index
+router.get('/users', authMiddleware.isAuthenticated, usersController.index)
+//Create
 router.get('/users/new', authMiddleware.isNotAuthenticated, usersController.new)
-router.post('/users', authMiddleware.isNotAuthenticated, uploadCloud.array('images', 6), usersController.create)
+router.post('/users/new', authMiddleware.isNotAuthenticated, uploadCloud.array('images', 6), usersController.create)
+//Update
+router.get('/users/edit/:id', authMiddleware.isAuthenticated, usersController.edit)
+router.post('/users/edit', authMiddleware.isAuthenticated, usersController.doEdit)
+//Delete
+router.get('/users/delete/:id', authMiddleware.isAuthenticated, usersController.delete);
+//Profile
+router.get('/users/profile', authMiddleware.isAuthenticated, usersController.profile);
+
+/*
+  Companies
+*/
+//Index
+router.get('/companies', authMiddleware.isAuthenticated, companiesController.index)
+//Create
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
+//Update
+router.get('/companies/edit/:id', authMiddleware.isAuthenticated, companiesController.edit)
+router.post('/companies/edit', authMiddleware.isAuthenticated, companiesController.doEdit)
+//Delete
+router.get('/companies/delete/:id', authMiddleware.isAuthenticated, companiesController.delete);
+//Profile
+router.get('/companies/profile', authMiddleware.isAuthenticated, companiesController.profile);
 
-// Login
+/*
+  Events
+*/
+
+
+/*
+  Login
+*/
 router.get('/login', authMiddleware.isNotAuthenticated, (_, res) => {res.render('login')})
 // Login a user  
 router.get('/login/users', authMiddleware.isNotAuthenticated, usersController.login)
@@ -33,7 +65,9 @@ router.get('/login/google/users/callback', authMiddleware.isNotAuthenticated, us
 router.post('/login/google/companies', authMiddleware.isNotAuthenticated, passport.authenticate('google-companies', { scope: ['openid', 'profile', 'email'] }))
 router.get('/login/google/companies/callback', authMiddleware.isNotAuthenticated, companiesController.doSocialLogin)
 
-//logout
+/*
+  Logout
+*/
 router.post('/logout', authMiddleware.isAuthenticated, (req, res) => {
   req.session.destroy();
   res.redirect('/login');

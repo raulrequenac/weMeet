@@ -3,6 +3,14 @@ const User = require('../models/user.model');
 const mailer = require('../config/mailer.config');
 const passport = require('passport')
 
+module.exports.index = (_, res) => {
+  res.render('users/index')
+}
+
+module.exports.profile = (_, res) => {
+  res.render('users/profile');
+}
+
 module.exports.new = (_, res) => {
   res.render('users/new', {
     user: new User()
@@ -21,7 +29,7 @@ module.exports.create = (req, res, next) => {
   user.save()
     .then((user) => {
       mailer.sendValidateEmail(user)
-      res.redirect('/')
+      res.redirect('/login/users')
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
@@ -30,7 +38,7 @@ module.exports.create = (req, res, next) => {
           error: error.errors
         })
       } else if (error.code === 11000) {
-        res.render('/', {
+        res.render('users/new', {
           user: {
             ...user,
             password: null
@@ -43,7 +51,42 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.login = (req, res, next) => {
+module.exports.edit = (_, res) => {
+  const id = req.params.id;
+  User.findById(id)
+    .then(data => res.render('users/edit', {
+      user: data
+    }))
+    .catch(error => next(error));
+}
+
+module.exports.doEdit = (req, res, next) => {
+  const {
+    name,
+    email,
+    bio,
+    images
+  } = res.body;
+
+  User.findByIdAndUpdate(req.params.id, {
+      name,
+      email,
+      bio,
+      images
+    }, {
+      new: true
+    })
+    .then(res.redirect('/users'))
+    .catch(error => next(error));
+}
+
+module.exports.delete = (req, res, next) => {
+  User.findByIdAndRemove(req.params.id)
+    .then(res.redirect('/login'))
+    .catch(error => next(error));
+}
+
+module.exports.login = (_, res) => {
   res.render('users/login')
 }
 
@@ -63,7 +106,7 @@ module.exports.doLogin = (req, res, next) => {
               res.render('users/login', {user:req.body})
             } else {
               req.session.user = user 
-              res.redirect('/')
+              res.redirect('/users')
             }
           })
       }
@@ -77,7 +120,7 @@ module.exports.doSocialLogin = (req, res, next) => {
       next(error);
     } else {
       req.session.user = user;
-      res.redirect('/')
+      res.redirect('/users')
     }
   })(req, res, next);
 }
