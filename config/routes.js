@@ -23,12 +23,18 @@ router.get('/login', authMiddleware.isNotAuthenticated, (_, res) => {res.render(
 // Login a user  
 router.get('/login/users', authMiddleware.isNotAuthenticated, usersController.login)
 router.post('/login/users', authMiddleware.isNotAuthenticated, usersController.doLogin)
-// Login a new user with Google
-router.post('/auth/google', authMiddleware.isNotAuthenticated, passport.authenticate('google-auth', { scope: ['openid', 'profile', 'email'] }))
-router.get('/auth/google/callback', authMiddleware.isNotAuthenticated, usersController.doSocialLogin)
 // Login a Company   
 router.get('/login/companies', authMiddleware.isNotAuthenticated, companiesController.login)
 router.post('/login/companies', authMiddleware.isNotAuthenticated, companiesController.doLogin)
+// Login a user with Google
+router.post('/login/google/users', authMiddleware.isNotAuthenticated, passport.authenticate('google-users', { scope: ['openid', 'profile', 'email'] }))
+router.get('/login/google/users/callback', authMiddleware.isNotAuthenticated, usersController.doSocialLogin)
+// Login a company with Google
+router.post('/login/google/companies', authMiddleware.isNotAuthenticated, passport.authenticate('google-companies', { scope: ['openid', 'profile', 'email'] }))
+router.get('/login/google/companies/callback', authMiddleware.isNotAuthenticated, companiesController.doSocialLogin)
 
 //logout
-router.post('/logout', authMiddleware.isAuthenticated, usersController.logout)
+router.post('/logout', authMiddleware.isAuthenticated, (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+})
