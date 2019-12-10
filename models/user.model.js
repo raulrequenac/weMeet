@@ -45,9 +45,8 @@ const userSchema = new mongoose.Schema({
   social: {
     google: String
   }, 
-  images: [String], 
-  
-}, { timestamps: true })
+  images: [String]
+}, { timestamps: true, toJSON: {virtuals: true}})
 
 userSchema.pre('save', function (next) {
   const user = this;
@@ -70,6 +69,10 @@ userSchema.pre('save', function (next) {
 userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
+
+userSchema.virtual('rol').get(function() {
+  return "user";
+})
 
 const User = mongoose.model('User', userSchema);
 

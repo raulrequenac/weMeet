@@ -44,7 +44,7 @@ const companySchema = new mongoose.Schema({
     type: Boolean,
     default: true
   }
-}, { timestamps: true })
+}, { timestamps: true, toJSON: {virtuals: true} })
 
 companySchema.pre('save', function (next) {
   const company = this;
@@ -73,6 +73,10 @@ companySchema.virtual('events', {
   foreignField: 'company',
   justOne: false,
 });
+
+companySchema.virtual('rol').get(function() {
+  return "company";
+})
 
 const Company = mongoose.model('Company', companySchema);
 
