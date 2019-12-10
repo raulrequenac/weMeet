@@ -5,23 +5,26 @@
         <img src="/images/granada-icon.png" alt="icon" width="50" height="50" class="d-inline-block align-top">
         <div class="pt-2"><strong>We</strong>Meet</div>
       </a>
-      <div class="dropdown show d-flex align-items-center">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="/images/granada-icon.png" alt="avatar" width="50" height="50" class="d-inline-block align-top">
-        </button>
+      {{#if currentUser}}
+        <div class="dropdown show d-flex align-items-center">
+          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img src="{{profileImage currentUser}}" alt="avatar" width="50" height="50" class="d-inline-block align-top rounded">
+          </button>
 
-        <div class="dropdown-menu" id="drop" aria-labelledby="dropdownMenuLink">
-          <li class="dropdown-item">
-            <a href="#">Profile</a>
-          </li>
+          <div class="dropdown-menu" id="drop" aria-labelledby="dropdownMenuLink">
+            <li class="dropdown-item">
+              <a href="#">Profile</a>
+            </li>
 
-          <li class="dropdown-item">
-            <form action="/logout" method="post">
-              <button type="submit">Logout</button>
-            </form>
-          </li>
+            <li class="dropdown-item">
+              <form action="/logout" method="post">
+                <button type="submit">Logout</button>
+              </form>
+            </li>
+          </div>
         </div>
-      </div>
+      {{/if}}
     </div>
   </div>
 </nav>

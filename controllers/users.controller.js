@@ -72,7 +72,7 @@ module.exports.doLogin = (req, res, next) => {
 }
 
 module.exports.doSocialLogin = (req, res, next) => {
-  passport.authenticate('google-user', (error, user) => {
+  passport.authenticate('google-users', (error, user) => {
     if (error) {
       next(error);
     } else {
@@ -81,3 +81,4 @@ module.exports.doSocialLogin = (req, res, next) => {
     }
   })(req, res, next);
 }
+
