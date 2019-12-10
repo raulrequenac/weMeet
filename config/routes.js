@@ -18,8 +18,8 @@ router.post('/users', authMiddleware.isNotAuthenticated, uploadCloud.array('imag
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 
-// Login Front 
-router.get('/login', authMiddleware.isNotAuthenticated, (_, res) => {res.render('login/index')})
+// Login
+router.get('/login', authMiddleware.isNotAuthenticated, (_, res) => {res.render('login')})
 // Login a user  
 router.get('/login/users', authMiddleware.isNotAuthenticated, usersController.login)
 router.post('/login/users', authMiddleware.isNotAuthenticated, usersController.doLogin)

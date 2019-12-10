@@ -8,3 +8,7 @@ hbs.registerHelper('date', (date) => {
   var d = new Date(date)
   return [format(d.getDate()), format(d.getMonth() + 1), d.getFullYear()].join('/')
 })
+
+hbs.registerHelper('profileImage', (user) => {
+  return user.logo || user.images[0];
+})
