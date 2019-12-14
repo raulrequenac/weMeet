@@ -37,7 +37,8 @@ router.get('/companies', authMiddleware.isAuthenticated, companiesController.ind
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 //Update
-router.get('/companies/edit/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.edit)
+router.get('/companies/edit', authMiddleware.isAuthenticated, companiesController.edit)
+// router.get('/companies/edit/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.edit)
 router.post('/companies/edit', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.doEdit)
 //Delete
 router.get('/companies/delete/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.delete);
@@ -47,6 +48,8 @@ router.get('/companies/:id', authMiddleware.isAuthenticated, companiesController
 /*
   Events
 */
+router.post('/events', authMiddleware.isAuthenticated, uploadCloud.array('images', 6), eventsController.create)
+
 
 
 /*
