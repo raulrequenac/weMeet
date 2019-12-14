@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Date,
     required: [true, 'Date of bitrth is required'],
-    max: `${new Date().getFullYear()-18}-${new Date().getMonth()}-${new Date().getDay()}`
+    max: `${Date.now.getFullYear-18}-${Date.now.getMonth}-${Date.now.getDay}`
   },
   bio: {
     type: String
