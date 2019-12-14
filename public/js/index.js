@@ -2,7 +2,7 @@ window.onload = function () {
   const button = document.getElementById("dropdownMenuButton");
   if (button) {
     const drop = document.getElementById('drop');
-
+  
     button.addEventListener('click', event => {
       drop.classList.toggle('show')
     })
@@ -23,25 +23,12 @@ window.onload = function () {
 
   // Activate Carousel
   $("#carouselExampleIndicators").carousel("pause");
-
+    
   // // Enable Carousel Controls
-  $("#prev").click(function () {
+  $("#prev").click(function(){
     $("#carouselExampleIndicators").carousel("prev");
   });
-  $("#next").click(function () {
+  $("#next").click(function(){
     $("#carouselExampleIndicators").carousel("next");
   });
-
-  //Maximum of 6 files
-  const form = document.getElementById("form");
-  if (form) {
-    form.addEventListener("submit", function (event) {
-      const images = document.getElementById("images");
-      if (images.files.length > 6) {
-        event.preventDefault();
-        alert("You can only upload a maximum of 6 files");
-        return false;
-      }
-    })
-  }
 }
