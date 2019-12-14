@@ -24,7 +24,6 @@ passport.use('google-users',
           const newUser = new User({
             name: profile.displayName,
             images: profile.photos.map(image => image.value),
-            age: profile.birthday,
             email: profile.emails[0].value,
             validated: true,
             password: profile.provider + Math.random().toString(36).substring(7),
