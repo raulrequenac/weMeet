@@ -1,8 +1,8 @@
-<form action="/users/new" method="POST" enctype="multipart/form-data">
+<form action="/users/edit" method="POST" enctype="multipart/form-data">
   <div class="form-group">
     <label for="name">Name</label>
     <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
-      placeholder="Enter name" value="{{ user.name }}">
+      value="{{ user.name }}">
 
     {{#if error.name}}
       <div class="invalid-feedback">
@@ -15,7 +15,7 @@
   <div class="form-group">
     <label for="email">Email</label>
     <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
-      placeholder="Enter email" value="{{ user.email }}">
+      value="{{ user.email }}">
 
     {{#if error.email}}
       <div class="invalid-feedback">
@@ -24,37 +24,25 @@
     {{/if}}
   </div>
 
-  <div>
-    <label for="age">Date of birth</label>
-    <input name="age" type="date" class="form-control {{#if error.age }}is-invalid{{/if}}" id="age"
-      placeholder="Enter age" value="{{ user.age }}">
-
-    {{#if error.age}}
-      <div class="invalid-feedback">
-        {{error.age.message}}
-      </div>
-    {{/if}}
-  </div>
-
   <div class="form-group">
     <label for="images">Images</label>
     <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}}" id="images"
-      placeholder="Enter images url">
+      placeholder="Enter images url" value="{{user.images.[0]}}">
 
     <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}}" id="images"
-      placeholder="Enter images url">
+      placeholder="Enter images url" value="{{user.images.[1]}}">
 
     <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}}" id="images"
-      placeholder="Enter images url">
+      placeholder="Enter images url" value="{{user.images.[2]}}">
 
     <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}}" id="images"
-      placeholder="Enter images url">
+      placeholder="Enter images url" value="{{user.images.[3]}}">
 
     <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}}" id="images"
-      placeholder="Enter images url">
+      placeholder="Enter images url" value="{{user.images.[4]}}">
 
     <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}}" id="images"
-      placeholder="Enter images url">
+      placeholder="Enter images url" value="{{user.images.[5]}}">
 
     {{#if error.images}}
       <div class="invalid-feedback">
@@ -66,7 +54,7 @@
   <div class="form-group">
     <label for="password">Password</label>
     <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}" id="password"
-      placeholder="password" value="{{ user.password }}">
+      placeholder="password">
 
     {{#if error.password}}
       <div class="invalid-feedback">

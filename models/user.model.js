@@ -25,11 +25,15 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     match: [EMAIL_PATTERN, 'Email is invalid']
   },
-  
   password: {
     type: String,
     required: [true, 'Password is required'],
     minlength: [8, 'Password needs at last 8 chars']
+  },
+  age: {
+    type: Date,
+    required: [true, 'Date of bitrth is required'],
+    max: `${Date.now.getFullYear-18}-${Date.now.getMonth}-${Date.now.getDay}`
   },
   bio: {
     type: String
@@ -70,7 +74,7 @@ userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
 
-userSchema.virtual('rol').get(function() {
+userSchema.virtual('role').get(function() {
   return "user";
 })
 
