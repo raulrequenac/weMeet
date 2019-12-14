@@ -6,8 +6,11 @@ module.exports.index = (_, res) => {
   res.render('companies/index')
 }
 
-module.exports.profile = (_, res) => {
-  res.render('companies/profile');
+module.exports.profile = (req, res, next) => {
+  const id = req.params.id;
+  Company.findById(id)
+    .then(company => res.render('companies/profile', {company: company}))
+    .catch(next);
 }
 
 module.exports.new = (_, res) => {
@@ -22,7 +25,7 @@ module.exports.create = (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     description: req.body.description,
-    logo: req.file ? req.file.url : undefined
+    logo: req.file ? req.file.url : '/images/company-profile.jpg'
   })
 
   company.save()
@@ -50,13 +53,13 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.edit = (_, res) => {
+module.exports.edit = (req, res, next) => {
   const id = req.params.id;
   Company.findById(id)
-    .then(data => res.render('companies/edit', {
-      company: data
+    .then(company => res.render('companies/edit', {
+      company: company
     }))
-    .catch(error => next(error));
+    .catch(next);
 }
 
 module.exports.doEdit = (req, res, next) => {

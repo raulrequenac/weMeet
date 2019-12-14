@@ -5,21 +5,26 @@
         <img src="/images/granada-icon.png" alt="icon" width="50" height="50" class="d-inline-block align-top">
         <div class="pt-2"><strong>We</strong>Meet</div>
       </a>
+      <div id="space"></div>
       {{#if currentUser}}
         <div class="dropdown show d-flex align-items-center">
           <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <img src="{{profileImage currentUser}}" alt="avatar" width="50" height="50" class="d-inline-block align-top rounded">
+            <img src="{{getProfileImage currentUser}}" alt="avatar" width="50" height="50" class="d-inline-block align-top rounded">
           </button>
 
           <div class="dropdown-menu" id="drop" aria-labelledby="dropdownMenuLink">
             <li class="dropdown-item">
-              <a href="{{getProfileUrl currentUser}}">Profile</a>
+              <a href="{{getUser currentUser}}/{{currentUser.id}}">Profile</a>
             </li>
-
+            <hr>
+            <li class="dropdown-item">
+              <a href="{{getUser currentUser}}/edit/{{currentUser.id}}">Edit Profile</a>
+            </li>
+            <hr>
             <li class="dropdown-item">
               <form action="/logout" method="post">
-                <button type="submit">Logout</button>
+                <button type="submit" class="btn btn-link">Logout</button>
               </form>
             </li>
           </div>

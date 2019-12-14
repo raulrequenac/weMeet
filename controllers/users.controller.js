@@ -7,8 +7,11 @@ module.exports.index = (_, res) => {
   res.render('users/index')
 }
 
-module.exports.profile = (_, res) => {
-  res.render('users/profile');
+module.exports.profile = (req, res, next) => {
+  const id = req.params.id;
+  User.findById(id)
+    .then(user => res.render('users/profile', {user: user}))
+    .catch(next);
 }
 
 module.exports.new = (_, res) => {
@@ -22,8 +25,9 @@ module.exports.create = (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    age: new Date(req.body.age),
     bio: req.body.bio,
-    images: req.files.map(file => file.url)
+    images: req.files[0] ? req.files.map(file => file.url) : '/images/user-profile.jpg'
   })
 
   user.save()
@@ -51,13 +55,13 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.edit = (_, res) => {
+module.exports.edit = (req, res, next) => {
   const id = req.params.id;
   User.findById(id)
-    .then(data => res.render('users/edit', {
-      user: data
+    .then(user => res.render('users/edit', {
+      user: user
     }))
-    .catch(error => next(error));
+    .catch(next);
 }
 
 module.exports.doEdit = (req, res, next) => {

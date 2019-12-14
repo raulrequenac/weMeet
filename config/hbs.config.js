@@ -9,12 +9,10 @@ hbs.registerHelper('date', (date) => {
   return [format(d.getDate()), format(d.getMonth() + 1), d.getFullYear()].join('/')
 })
 
-hbs.registerHelper('profileImage', (user) => {
+hbs.registerHelper('getProfileImage', (user) => {
   return user.logo || user.images[0];
 })
 
-hbs.registerHelper('getProfileUrl', (user) => {
-  console.log(user)
-  console.log(user.rol)
-  return user.rol === "user" ? "/users/profile" : "/companies/profile";
+hbs.registerHelper('getUser', (user) => {
+  return user.role === "user" ? "/users" : "/companies";
 })

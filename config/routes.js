@@ -10,6 +10,7 @@ const router = express.Router();
 
 module.exports = router;
 
+router.get('/', authMiddleware.isNotAuthenticated, (_, res) => {res.render('login')})
 
 /*
   Users
@@ -20,12 +21,12 @@ router.get('/users', authMiddleware.isAuthenticated, usersController.index)
 router.get('/users/new', authMiddleware.isNotAuthenticated, usersController.new)
 router.post('/users/new', authMiddleware.isNotAuthenticated, uploadCloud.array('images', 6), usersController.create)
 //Update
-router.get('/users/edit/:id', authMiddleware.isAuthenticated, usersController.edit)
-router.post('/users/edit', authMiddleware.isAuthenticated, usersController.doEdit)
+router.get('/users/edit/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, usersController.edit)
+router.post('/users/edit', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, usersController.doEdit)
 //Delete
-router.get('/users/delete/:id', authMiddleware.isAuthenticated, usersController.delete);
+router.get('/users/delete/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, usersController.delete);
 //Profile
-router.get('/users/profile', authMiddleware.isAuthenticated, usersController.profile);
+router.get('/users/:id', authMiddleware.isAuthenticated, usersController.profile);
 
 /*
   Companies
@@ -36,12 +37,12 @@ router.get('/companies', authMiddleware.isAuthenticated, companiesController.ind
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 //Update
-router.get('/companies/edit/:id', authMiddleware.isAuthenticated, companiesController.edit)
-router.post('/companies/edit', authMiddleware.isAuthenticated, companiesController.doEdit)
+router.get('/companies/edit/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.edit)
+router.post('/companies/edit', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.doEdit)
 //Delete
-router.get('/companies/delete/:id', authMiddleware.isAuthenticated, companiesController.delete);
+router.get('/companies/delete/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.delete);
 //Profile
-router.get('/companies/profile', authMiddleware.isAuthenticated, companiesController.profile);
+router.get('/companies/:id', authMiddleware.isAuthenticated, companiesController.profile);
 
 /*
   Events

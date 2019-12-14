@@ -74,7 +74,7 @@ companySchema.virtual('events', {
   justOne: false,
 });
 
-companySchema.virtual('rol').get(function() {
+companySchema.virtual('role').get(function() {
   return "company";
 })
 
