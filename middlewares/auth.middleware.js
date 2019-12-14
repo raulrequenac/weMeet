@@ -12,7 +12,7 @@ module.exports.isNotAuthenticated = (req, res, next) => {
     if (req.session.user.role === "user"){
       res.redirect('/users');
     } else {
-      res.session.user.redirect('/companies');
+      res.redirect('/companies');
     }
   } else {
     next();

@@ -41,7 +41,7 @@ router.get('/companies', authMiddleware.isAuthenticated, companiesController.ind
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 //Update
-router.get('/companies/edit/', authMiddleware.isAuthenticated, companiesController.edit)
+router.get('/companies/edit', authMiddleware.isAuthenticated, companiesController.edit)
 router.post('/companies/edit', authMiddleware.isAuthenticated, companiesController.doEdit)
 router.get('/users/edit/images', authMiddleware.isAuthenticated, usersController.editImages)
 router.post('/users/edit/images', authMiddleware.isAuthenticated, usersController.doEditImages)

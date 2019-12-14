@@ -51,7 +51,7 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.edit = (req, res) => {
-  res.render('companies/edit', {
+  res.render('companies/form', {
       company: req.session.user
     })
 }
