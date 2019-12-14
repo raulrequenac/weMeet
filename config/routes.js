@@ -19,12 +19,16 @@ router.get('/', authMiddleware.isNotAuthenticated, (_, res) => {res.render('logi
 router.get('/users', authMiddleware.isAuthenticated, usersController.index)
 //Create
 router.get('/users/new', authMiddleware.isNotAuthenticated, usersController.new)
-router.post('/users/new', authMiddleware.isNotAuthenticated, uploadCloud.array('images', 6), usersController.create)
+router.post('/users/new', authMiddleware.isNotAuthenticated, uploadCloud.array('images'), usersController.create)
 //Update
-router.get('/users/edit/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, usersController.edit)
-router.post('/users/edit', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, usersController.doEdit)
+router.get('/users/edit', authMiddleware.isAuthenticated, usersController.edit)
+router.post('/users/edit', authMiddleware.isAuthenticated, usersController.doEdit)
+router.get('/users/edit/images', authMiddleware.isAuthenticated, usersController.editImages)
+router.post('/users/edit/images', authMiddleware.isAuthenticated, usersController.doEditImages)
+router.get('/users/edit/password', authMiddleware.isAuthenticated, usersController.editPassword)
+router.post('/users/edit/password', authMiddleware.isAuthenticated, usersController.doEditPassword)
 //Delete
-router.get('/users/delete/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, usersController.delete);
+router.get('/users/delete/', authMiddleware.isAuthenticated, usersController.delete);
 //Profile
 router.get('/users/:id', authMiddleware.isAuthenticated, usersController.profile);
 
@@ -37,11 +41,14 @@ router.get('/companies', authMiddleware.isAuthenticated, companiesController.ind
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 //Update
-router.get('/companies/edit', authMiddleware.isAuthenticated, companiesController.edit)
-// router.get('/companies/edit/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.edit)
-router.post('/companies/edit', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.doEdit)
+router.get('/companies/edit/', authMiddleware.isAuthenticated, companiesController.edit)
+router.post('/companies/edit', authMiddleware.isAuthenticated, companiesController.doEdit)
+router.get('/users/edit/images', authMiddleware.isAuthenticated, usersController.editImages)
+router.post('/users/edit/images', authMiddleware.isAuthenticated, usersController.doEditImages)
+router.get('/users/edit/password', authMiddleware.isAuthenticated, usersController.editPassword)
+router.post('/users/edit/password', authMiddleware.isAuthenticated, usersController.doEditPassword)
 //Delete
-router.get('/companies/delete/:id', authMiddleware.isAuthenticated, authMiddleware.isCurrentUser, companiesController.delete);
+router.get('/companies/delete/', authMiddleware.isAuthenticated, companiesController.delete);
 //Profile
 router.get('/companies/:id', authMiddleware.isAuthenticated, companiesController.profile);
 
