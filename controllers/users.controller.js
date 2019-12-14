@@ -15,7 +15,7 @@ module.exports.profile = (req, res, next) => {
 }
 
 module.exports.new = (_, res) => {
-  res.render('users/new', {
+  res.render('users/form', {
     user: new User()
   })
 }
@@ -37,12 +37,12 @@ module.exports.create = (req, res, next) => {
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render('users/new', {
+        res.render('users/form', {
           user,
           error: error.errors
         })
       } else if (error.code === 11000) {
-        res.render('users/new', {
+        res.render('users/form', {
           user: {
             ...user,
             password: null
@@ -56,38 +56,61 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.edit = (req, res, next) => {
-  const id = req.params.id;
-  User.findById(id)
-    .then(user => res.render('users/edit', {
-      user: user
-    }))
-    .catch(next);
+    res.render('users/form', {
+      user: req.session.user
+    })
 }
 
 module.exports.doEdit = (req, res, next) => {
   const {
     name,
     email,
-    bio,
-    images
+    bio
   } = res.body;
 
-  User.findByIdAndUpdate(req.params.id, {
+  User.findByIdAndUpdate(req.session.user.id, {
       name,
       email,
-      bio,
-      images
+      bio
     }, {
       new: true
     })
     .then(res.redirect('/users'))
-    .catch(error => next(error));
+    .catch(next);
+}
+
+module.exports.editImages = (req, res) => {
+  res.render('users/editImages', {
+    user: req.session.user
+  })
+}
+
+module.exports.doEditImages = (req, res, next) => {
+  const {images} = res.body;
+
+  User.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
+    .then(res.redirect('/users'))
+    .catch(next);
+}
+
+module.exports.editPassword = (req, res) => {
+  res.render('users/editPassword', {
+    user: req.session.user
+  })
+}
+
+module.exports.doEditPassword = (req, res, next) => {
+  const {password} = res.body;
+
+  User.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
+    .then(res.redirect('/users'))
+    .catch(next);
 }
 
 module.exports.delete = (req, res, next) => {
-  User.findByIdAndRemove(req.params.id)
+  User.findByIdAndRemove(req.session.user.id)
     .then(res.redirect('/login'))
-    .catch(error => next(error));
+    .catch(next);
 }
 
 module.exports.login = (_, res) => {

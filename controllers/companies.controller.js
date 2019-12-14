@@ -54,12 +54,9 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.edit = (req, res, next) => {
-  const id = req.params.id;
-  Company.findById(id)
-    .then(company => res.render('companies/edit', {
-      company: company
-    }))
-    .catch(next);
+  res.render('companies/edit', {
+      company: req.session.user
+    })
 }
 
 module.exports.doEdit = (req, res, next) => {
@@ -70,7 +67,7 @@ module.exports.doEdit = (req, res, next) => {
     logo
   } = res.body;
 
-  User.findByIdAndUpdate(req.params.id, {
+  User.findByIdAndUpdate(req.session.user.id, {
       name,
       email,
       description,
@@ -82,8 +79,36 @@ module.exports.doEdit = (req, res, next) => {
     .catch(error => next(error));
 }
 
+module.exports.editImages = (req, res) => {
+  res.render('companies/editImages', {
+    company: req.session.user
+  })
+}
+
+module.exports.doEditImages = (req, res, next) => {
+  const {images} = res.body;
+
+  Company.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
+    .then(res.redirect('/companies'))
+    .catch(next);
+}
+
+module.exports.editPassword = (req, res) => {
+  res.render('companies/editPassword', {
+    company: req.session.user
+  })
+}
+
+module.exports.doEditPassword = (req, res, next) => {
+  const {password} = res.body;
+
+  Company.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
+    .then(res.redirect('/companies'))
+    .catch(next);
+}
+
 module.exports.delete = (req, res, next) => {
-  Company.findByIdAndRemove(req.params.id)
+  Company.findByIdAndRemove(req.session.user.id)
     .then(res.redirect('/login'))
     .catch(error => next(error));
 }
@@ -107,7 +132,7 @@ module.exports.doLogin = (req, res, next) => {
             if (!match) {
               res.render('companies/login', {company:req.body})
             } else {
-              req.session.company = company 
+              req.session.user = company 
               res.redirect('/companies')
             }
           })
