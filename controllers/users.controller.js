@@ -7,11 +7,8 @@ module.exports.index = (_, res) => {
   res.render('users/index')
 }
 
-module.exports.profile = (req, res, next) => {
-  const id = req.params.id;
-  User.findById(id)
-    .then(user => res.render('users/profile', {user: user}))
-    .catch(next);
+module.exports.profile = (req, res) => {
+  res.render('users/profile', {user: req.session.user.id});
 }
 
 module.exports.new = (_, res) => {
@@ -55,7 +52,7 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.edit = (req, res, next) => {
+module.exports.edit = (req, res) => {
     res.render('users/form', {
       user: req.session.user
     })

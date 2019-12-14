@@ -6,11 +6,8 @@ module.exports.index = (_, res) => {
   res.render('companies/index')
 }
 
-module.exports.profile = (req, res, next) => {
-  const id = req.params.id;
-  Company.findById(id)
-    .then(company => res.render('companies/profile', {company: company}))
-    .catch(next);
+module.exports.profile = (req, res) => {
+  res.render('companies/profile', {company: req.session.user})
 }
 
 module.exports.new = (_, res) => {
@@ -31,7 +28,7 @@ module.exports.create = (req, res, next) => {
   company.save()
     .then((company) => {
       mailer.sendValidateEmail(company)
-      res.redirect('/companies')
+      res.redirect('/login/companies')
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
@@ -53,7 +50,7 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.edit = (req, res, next) => {
+module.exports.edit = (req, res) => {
   res.render('companies/edit', {
       company: req.session.user
     })
@@ -113,7 +110,7 @@ module.exports.delete = (req, res, next) => {
     .catch(error => next(error));
 }
 
-module.exports.login = (req, res, next) => {
+module.exports.login = (_, res) => {
   res.render('companies/login')
 }
 

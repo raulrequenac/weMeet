@@ -56,7 +56,9 @@ router.get('/companies/:id', authMiddleware.isAuthenticated, companiesController
   Events
 */
 //Create
-router.get('/events/new')
+router.post('/events', authMiddleware.isAuthenticated, uploadCloud.array('images', 6), eventsController.create)
+router.post('/events/:id/enroll', authMiddleware.isAuthenticated, eventsController.enroll)
+
 
 /*
   Login
