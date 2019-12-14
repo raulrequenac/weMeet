@@ -1,1 +1,57 @@
+<div>
+
+  <form action="/events" method="POST" class="mb-4" enctype="multipart/form-data">
+  <h6>New Event</h6>
+
+  <div class="form-group">
+    <label for="name">Event Name</label>
+    <input name="name" type="text" class="form-control" id="name" placeholder="Enter Name">
+  </div>
+
+   <div class="form-group">
+    <label for="name">Description</label>
+    <textarea placeholder="Description" name="description" type="text" class="form-control" id="description" rows="3"></textarea>
+  </div>
+
+   <div class="form-group">
+    <label for="images">Images</label>
+    <input name="images" type="file" class="form-control-file " id="images"
+      placeholder="Enter images url">
+    <input name="images" type="file" class="form-control-file " id="images"
+      placeholder="Enter images url">
+    <input name="images" type="file" class="form-control-file " id="images"
+      placeholder="Enter images url">
+    <input name="images" type="file" class="form-control-file " id="images"
+      placeholder="Enter images url">
+
+    {{#if error.images}}
+      <div class="invalid-feedback">
+        {{error.images.message}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+    <label for="categories">Categories</label>
+    <input name="categories" type="text" class="form-control" id="categories" placeholder="Categories">
+  </div>
+
+  <div class="form-group">
+    <label for="capacity">Capacity</label>
+    <input name="capacity" type="number" class="form-control" id="capacity" placeholder="Capacity">
+  </div>
+
+  <div class="form-group">
+    <label for="price">Price</label>
+    <input name="price" type="number" class="form-control" id="price" placeholder="Price">
+  </div>
+  
+
+  <button type="submit" class="btn btn-primary btn-outline btn-sm">
+    Create Event
+  </button>
+</form>
+</div>
+
 {{> index}}
+

@@ -1,4 +1,13 @@
-<form action="/users/new" method="POST" enctype="multipart/form-data">
+{{#if user.isNew}}
+  <h1>Create</h1>
+  <form action="/users/new" method="POST" enctype="multipart/form-data"></form>
+{{else}}
+  <h1>Edit</h1>
+  <form action="/users/edit" method="POST" enctype="multipart/form-data">
+{{/if}}
+
+
+
   <div class="form-group">
     <label for="name">Name</label>
     <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
@@ -87,7 +96,14 @@
     {{/if}}
   </div>
 
-  <button type="submit" class="btn btn-primary">
+{{#if book.isNew}}
+   <button type="submit" class="btn btn-primary">
     Sign up
   </button>
+{{else}}
+    <button type="submit" class="btn btn-primary">
+    Update
+  </button>
+{{/if}}
+
 </form>

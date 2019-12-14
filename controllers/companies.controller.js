@@ -54,12 +54,14 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.edit = (req, res, next) => {
-  const id = req.params.id;
-  Company.findById(id)
-    .then(company => res.render('companies/edit', {
-      company: company
-    }))
-    .catch(next);
+  // const id = req.params.id;
+  // Company.findById(id)
+  //   .then(company => res.render('companies/edit', {
+  //     company: company
+  //   }))
+  //   .catch(next);
+
+  res.render('companies/edit', { company: req.currentUser })
 }
 
 module.exports.doEdit = (req, res, next) => {
@@ -107,7 +109,7 @@ module.exports.doLogin = (req, res, next) => {
             if (!match) {
               res.render('companies/login', {company:req.body})
             } else {
-              req.session.company = company 
+              req.session.user = company 
               res.redirect('/companies')
             }
           })
