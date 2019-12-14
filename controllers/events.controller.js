@@ -7,6 +7,7 @@ module.exports.create = (req, res, next) => {
     name: req.body.name,
     description: req.body.description,
     image: req.files[0] ? req.files.map(file => file.url) : '/images/user-profile.jpg',
+    location: req.body.location, 
     categories: req.body.categories,
     capacity: req.body.capacity,
     price: req.body.price, 

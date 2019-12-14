@@ -55,13 +55,10 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.edit = (req, res, next) => {
-  const id = req.params.id;
-  User.findById(id)
-    .then(user => res.render('users/edit', {
-      user: user
-    }))
-    .catch(next);
+module.exports.edit = (req, res) => {
+    res.render('users/edit', {
+      user: req.session.user
+    })
 }
 
 module.exports.doEdit = (req, res, next) => {
@@ -85,7 +82,7 @@ module.exports.doEdit = (req, res, next) => {
 }
 
 module.exports.delete = (req, res, next) => {
-  User.findByIdAndRemove(req.params.id)
+  User.findByIdAndRemove(req.session.user.id)
     .then(res.redirect('/login'))
     .catch(error => next(error));
 }

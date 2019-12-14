@@ -53,15 +53,10 @@ module.exports.create = (req, res, next) => {
     })
 }
 
-module.exports.edit = (req, res, next) => {
-  // const id = req.params.id;
-  // Company.findById(id)
-  //   .then(company => res.render('companies/edit', {
-  //     company: company
-  //   }))
-  //   .catch(next);
-
-  res.render('companies/edit', { company: req.currentUser })
+module.exports.edit = (req, res) => {
+  res.render('companies/edit', {
+      company: req.session.user
+    })
 }
 
 module.exports.doEdit = (req, res, next) => {
@@ -72,7 +67,7 @@ module.exports.doEdit = (req, res, next) => {
     logo
   } = res.body;
 
-  User.findByIdAndUpdate(req.params.id, {
+  User.findByIdAndUpdate(req.session.user.id, {
       name,
       email,
       description,
@@ -81,16 +76,16 @@ module.exports.doEdit = (req, res, next) => {
       new: true
     })
     .then(res.redirect('/companies'))
-    .catch(error => next(error));
+    .catch(next);
 }
 
 module.exports.delete = (req, res, next) => {
-  Company.findByIdAndRemove(req.params.id)
+  Company.findByIdAndRemove(req.session.user.id)
     .then(res.redirect('/login'))
-    .catch(error => next(error));
+    .catch(next);
 }
 
-module.exports.login = (req, res, next) => {
+module.exports.login = (_, res) => {
   res.render('companies/login')
 }
 
