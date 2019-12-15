@@ -9,26 +9,22 @@ const eventSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Name is required'],
-    minlength: [3, 'Name needs at last 8 chars'],
+    minlength: [8, 'Name needs at last 8 chars'],
     trim: true
   },
-  description: {
-    type: String
-  },
-  image: [String], 
+  description: String,
+  images: [String], 
   location: {
     type: String, 
     required:[true, 'Location is required'],
   },
-  categories:{
-    type: String, 
-  }, 
-  capacity: {
-    type: Number, 
-  }, 
-  price:{
-    type: Number, 
-  }, 
+  date: {
+    type: Date,
+    required: [true, 'Date is required']
+  },
+  categories: [String], 
+  capacity: Number, 
+  price:Number
 }, { timestamps: true })
 
 eventSchema.virtual('enroll', {

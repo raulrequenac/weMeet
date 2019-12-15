@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Company = require('../models/company.model');
 const mailer = require('../config/mailer.config');
 
-module.exports.index = (_, res) => {
-  res.render('companies/index')
-}
-
 module.exports.profile = (req, res) => {
   res.render('companies/profile', {company: req.session.user})
 }
@@ -72,7 +68,7 @@ module.exports.doEdit = (req, res, next) => {
     }, {
       new: true
     })
-    .then(res.redirect('/companies'))
+    .then(res.redirect('/'))
     .catch(error => next(error));
 }
 
@@ -86,7 +82,7 @@ module.exports.doEditImages = (req, res, next) => {
   const {images} = res.body;
 
   Company.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
-    .then(res.redirect('/companies'))
+    .then(res.redirect('/'))
     .catch(next);
 }
 
@@ -100,7 +96,7 @@ module.exports.doEditPassword = (req, res, next) => {
   const {password} = res.body;
 
   Company.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
-    .then(res.redirect('/companies'))
+    .then(res.redirect('/'))
     .catch(next);
 }
 
@@ -130,7 +126,7 @@ module.exports.doLogin = (req, res, next) => {
               res.render('companies/login', {company:req.body})
             } else {
               req.session.user = company 
-              res.redirect('/companies')
+              res.redirect('/')
             }
           })
       }
@@ -144,7 +140,7 @@ module.exports.doSocialLogin = (req, res, next) => {
       next(error);
     } else {
       req.session.user = company;
-      res.redirect('/companies')
+      res.redirect('/')
     }
   })(req, res, next);
 }

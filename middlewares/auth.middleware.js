@@ -9,12 +9,17 @@ module.exports.isAuthenticated = (req, res, next) => {
 
 module.exports.isNotAuthenticated = (req, res, next) => {
   if (req.session.user) {
-    if (req.session.user.role === "user"){
-      res.redirect('/users');
-    } else {
-      res.redirect('/companies');
-    }
+    res.redirect('/');
   } else {
     next();
+  }
+}
+
+module.exports.canEditEvents = (req, res, next) => {
+  if (req.session.user.role === 'company') {
+    next();
+  } else {
+    req.session.genericError = 'You are not allowed to edit events!'
+    res.redirect('/');
   }
 }
