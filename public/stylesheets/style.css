@@ -42,7 +42,7 @@
 
 body {
   background-color: #b8a597;
-  margin-top: 80px;
+  margin-top: 76px;
 }
 
 .line {
@@ -84,4 +84,9 @@ body {
 
 #carouselExampleIndicators {
   width: 22rem;
+}
+
+.carousel-img {
+  width: 352px;
+  height: 250px;
 }

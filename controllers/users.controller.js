@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
+
 const mailer = require('../config/mailer.config');
 const passport = require('passport')
-
-module.exports.index = (_, res) => {
-  res.render('users/index')
-}
 
 module.exports.profile = (req, res) => {
   res.render('users/profile', {user: req.session.user.id});
@@ -72,7 +69,7 @@ module.exports.doEdit = (req, res, next) => {
     }, {
       new: true
     })
-    .then(res.redirect('/users'))
+    .then(res.redirect('/'))
     .catch(next);
 }
 
@@ -86,7 +83,7 @@ module.exports.doEditImages = (req, res, next) => {
   const {images} = res.body;
 
   User.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
-    .then(res.redirect('/users'))
+    .then(res.redirect('/'))
     .catch(next);
 }
 
@@ -100,7 +97,7 @@ module.exports.doEditPassword = (req, res, next) => {
   const {password} = res.body;
 
   User.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
-    .then(res.redirect('/users'))
+    .then(res.redirect('/'))
     .catch(next);
 }
 
@@ -130,7 +127,7 @@ module.exports.doLogin = (req, res, next) => {
               res.render('users/login', {user:req.body})
             } else {
               req.session.user = user 
-              res.redirect('/users')
+              res.redirect('/')
             }
           })
       }
@@ -144,7 +141,7 @@ module.exports.doSocialLogin = (req, res, next) => {
       next(error);
     } else {
       req.session.user = user;
-      res.redirect('/users')
+      res.redirect('/')
     }
   })(req, res, next);
 }

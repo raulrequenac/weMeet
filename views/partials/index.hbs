@@ -1,36 +1,12 @@
 <div class="general">
   <section class="white-bg">
     <div class="container p-5">
-      <div class="line">
-        <p>Next event</p>
-      </div>
-      <div class="d-flex justify-content-between">
-        <h2 class="d-inline">Event name</h2>
-        <h6 class="d-inline">DD/MM/YYYY</h6>
-      </div>
-      <p>Description</p>
+      {{>nextEvent nextEvent=events.[0]}}
     </div>
-
   </section>
   <section class="section2">
     <div class="container p-5">
-      <div>
-        <h1>Search</h1>
-      </div>
-      <div class="events card container">
-        <div class="d-flex justify-content-between">
-          <h2 class="d-inline">Event name</h2>
-          <h6 class="d-inline">DD/MM/YYYY</h6>
-        </div>
-        <p>Description</p>
-      </div>
-      <div class="events card container">
-        <div class="d-flex justify-content-between">
-          <h2 class="d-inline">Event name</h2>
-          <h6 class="d-inline">DD/MM/YYYY</h6>
-        </div>
-        <p>Description</p>
-      </div>
+      {{>searchEvent events}}
     </div>
   </section>
   {{>calendar}}
