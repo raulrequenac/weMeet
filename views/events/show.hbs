@@ -1,0 +1,15 @@
+{{>carousel element=event}}
+<h1>{{event.name}}</h1>
+<p>{{event.description}}</p>
+<h5>{{event.location}}</h5>
+<h2>{{event.date}}</h2>
+<p>
+  {{#each event.category as |category|}}
+  {{category}}, 
+  {{/each}}
+</p>
+<h5>{{event.capacity}}</h5>
+<h3>{{event.price}}</h3>
+{{#if currentUser.role === "/companies"}}
+  <a href="/events/edit/{{event.id}}"></a>
+{{/if}}

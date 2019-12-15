@@ -10,13 +10,26 @@ const router = express.Router();
 
 module.exports = router;
 
-router.get('/', authMiddleware.isNotAuthenticated, (_, res) => {res.render('login')})
+/*
+  Events
+*/
+//Index
+router.get('/', authMiddleware.isAuthenticated, eventsController.index)
+//Create
+router.post('/events/new', authMiddleware.isAuthenticated, uploadCloud.array('images', 6), eventsController.create)
+//Update
+router.get('/events/edit/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.edit)
+router.post('/events/edit/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.doEdit)
+router.get('/events/edit/images/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.editImages)
+router.post('/events/edit/images/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.doEditImages)
+//Show
+router.get('/events/:id', authMiddleware.isAuthenticated, eventsController.show)
+//Enroll
+router.post('/events/:id/enroll', authMiddleware.isAuthenticated, eventsController.enroll)
 
 /*
   Users
 */
-//Index
-router.get('/users', authMiddleware.isAuthenticated, usersController.index)
 //Create
 router.get('/users/new', authMiddleware.isNotAuthenticated, usersController.new)
 router.post('/users/new', authMiddleware.isNotAuthenticated, uploadCloud.array('images'), usersController.create)
@@ -35,8 +48,6 @@ router.get('/users/:id', authMiddleware.isAuthenticated, usersController.profile
 /*
   Companies
 */
-//Index
-router.get('/companies', authMiddleware.isAuthenticated, companiesController.index)
 //Create
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
 router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
@@ -51,14 +62,6 @@ router.post('/users/edit/password', authMiddleware.isAuthenticated, usersControl
 router.get('/companies/delete/', authMiddleware.isAuthenticated, companiesController.delete);
 //Profile
 router.get('/companies/:id', authMiddleware.isAuthenticated, companiesController.profile);
-
-/*
-  Events
-*/
-//Create
-router.post('/events', authMiddleware.isAuthenticated, uploadCloud.array('images', 6), eventsController.create)
-router.post('/events/:id/enroll', authMiddleware.isAuthenticated, eventsController.enroll)
-
 
 /*
   Login

@@ -14,7 +14,7 @@ const companySchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Name is required'],
-    minlength: [3, 'Name needs at last 8 chars'],
+    minlength: [3, 'Name needs at last 3 chars'],
     trim: true
   },
   email: {

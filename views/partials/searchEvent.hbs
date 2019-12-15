@@ -1,0 +1,12 @@
+<div>
+  <h1>Search</h1>
+</div>
+{{#each events as |event|}}
+  <div class="events card container">
+    <div class="d-flex justify-content-between">
+      <h2 class="d-inline">{{event.name}}</h2>
+      <h6 class="d-inline">{{event.date}}</h6>
+    </div>
+    <p>{{event.Description}}</p>
+  </div>
+{{/each}}
