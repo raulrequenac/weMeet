@@ -1,28 +1,19 @@
-  <section class="black-bg white-text">
-    <div class="container p-5">
-      <h1>Calendar</h1>
+<section class="black-bg white-text">
+  <div class="container p-5">
+    <h1>Calendar</h1>
+    {{#if dateEvents}}
       <ul>
-        <li>
-          <h3>MM/YYYY</h3>
+        {{#each dateEvents as |dEvents|}}
+          <h3>{{dEvents.monthYear}}</h3>
           <ul>
-            <li>DD - Event name</li>
-            <li>DD - Event name</li>
+            {{#each dEvents.events as |event|}}
+              <li>{{event}}</li>
+            {{/each}}
           </ul>
-        </li>
-        <li>
-          <h3>MM/YYYY</h3>
-          <ul>
-            <li>DD - Event name</li>
-          </ul>
-        </li>
-        <li>
-          <h3>MM/YYYY</h3>
-          <ul>
-            <li>DD - Event name</li>
-            <li>DD - Event name</li>
-            <li>DD - Event name</li>
-          </ul>
-        </li>
+        {{/each}}
       </ul>
-    </div>
-  </section>
+    {{else}}
+      <h4>You are not enrolled to any event!!</h4>
+    {{/if}}
+  </div>
+</section>

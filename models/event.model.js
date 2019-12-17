@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const categories = require('../constants/categories')
 
 const eventSchema = new mongoose.Schema({
   company: {
@@ -13,19 +14,24 @@ const eventSchema = new mongoose.Schema({
     trim: true
   },
   description: String,
-  images: [String], 
+  images: [String],
   location: {
-    type: String, 
-    required:[true, 'Location is required'],
+    type: String,
+    required: [true, 'Location is required'],
   },
   date: {
     type: Date,
     required: [true, 'Date is required']
   },
-  categories: [String], 
-  capacity: Number, 
-  price:Number
-}, { timestamps: true })
+  categories: {
+    type: [String],
+    enum: categories
+  },
+  capacity: Number,
+  price: Number
+}, {
+  timestamps: true
+})
 
 eventSchema.virtual('enroll', {
   ref: 'Enroll',

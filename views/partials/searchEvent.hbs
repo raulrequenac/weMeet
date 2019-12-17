@@ -1,5 +1,6 @@
 <div>
   <h1>Search</h1>
+  {{> searchForm}}
 </div>
 {{#each events as |event|}}
   <div class="events card container">
@@ -7,6 +8,6 @@
       <h2 class="d-inline">{{event.name}}</h2>
       <h6 class="d-inline">{{event.date}}</h6>
     </div>
-    <p>{{event.Description}}</p>
+    <p>{{event.description}}</p>
   </div>
 {{/each}}

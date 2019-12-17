@@ -4,17 +4,89 @@ const User = require('../models/user.model');
 const Enroll = require('../models/enroll.model');
 
 module.exports.index = (req, res, next) => {
-  const role = req.session.user.role === "user" ? "users" : "companies";
-  const criteria = req.query.search 
-    ? { body: new RegExp(req.query.search, 'i')} 
-    : {};
+  const user = req.session.user
+  const role = user.role === "user" ? "users" : "companies";
+  const {
+    from,
+    to,
+    category,
+    price
+  } = req.query
 
-  Event.find()
-    .sort({date: -1})
+  const criteria = {
+    ...(from && to ? {
+      date: {
+        $lte: to,
+        $gte: from
+      }
+    } : {}),
+    ...category ? {
+      categories: {
+        $in: [category]
+      }
+    } : {},
+    ...price ? {
+      price: {
+        $lte: Number(price)
+      }
+    } : {}
+  }
+
+  const userEventsPromise = Event.find()
+    .sort({
+      date: -1
+    })
     .limit(10)
-    .populate('enroll')
-    .then(events => {res.render(`${role}/index`, {events})})
+    .populate('company')
+    .populate({
+      path: 'enroll',
+      match: {
+        user: user.id
+      }
+    });
+
+  const searchEventsPromise = Event.find(criteria)
+    .sort({
+      date: -1
+    })
+    .limit(10)
+    .populate('company')
+    .populate('enroll');
+
+  Promise.all([userEventsPromise, searchEventsPromise])
+    .then(([userEvents, searchEvents]) => {
+      res.render(
+        `${role}/index`, {
+          nextEvent: userEvents[0],
+          searchEvents,
+          dateEvents: _groupEventsByDate(userEvents)
+        }
+      )
+    })
     .catch(next)
+}
+
+_groupEventsByDate = function (events) {
+  const dates = events.map(event => ({
+    month: event.date.getMonth(),
+    year: event.date.getFullYear()
+  }));
+  const uniqueDates = dates.reduce((acc, curr) => {
+    if (!acc.some(elem => elem.month === curr.month && elem.year === curr.year)) {
+      return [...acc, curr]
+    }
+    return acc
+  }, [])
+
+  return uniqueDates.map(date => ({
+    monthYear: `${date.month+1}/${date.year}`,
+    events: events
+      .filter(event => {
+        return event.date.getMonth() === date.month &&
+          event.date.getFullYear() === date.year;
+      })
+      .map(event => `${date.getDate()} -- ${event.name}`)
+  }));
 }
 
 module.exports.create = (req, res, next) => {
@@ -33,12 +105,12 @@ module.exports.create = (req, res, next) => {
   event.save()
     .then(() => {
       req.session.genericSuccess = "event created"
-      res.redirect('/companies')
+      res.redirect('/')
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
         req.session.genericError = "can't create event"
-        res.redirect('/companies')
+        res.redirect('/')
       } else {
         next(error);
       }
@@ -82,9 +154,15 @@ module.exports.doEdit = (req, res, next) => {
 
 module.exports.doEditImages = (req, res, next) => {
   const id = req.params.id
-  const {images} = res.body;
+  const {
+    images
+  } = res.body;
 
-  Event.findByIdAndUpdate(id, {images}, {new: true})
+  Event.findByIdAndUpdate(id, {
+      images
+    }, {
+      new: true
+    })
     .then(res.redirect('/'))
     .catch(next);
 }
