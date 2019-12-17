@@ -1,0 +1,44 @@
+<div>
+  <form action="/" method="GET" class="mb-4">
+    Date
+    <div class="form-group">
+      <label for="date">From:</label>
+      <input name="from" type="date" class="form-control {{#if error.date }}is-invalid{{/if}}" id="from">
+
+      {{#if error.date}}
+        <div class="invalid-feedback">
+          {{error.date.message}}
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="form-group">
+      <label for="date">To:</label>
+      <input name="to" type="date" class="form-control {{#if error.date }}is-invalid{{/if}}" id="to">
+
+      {{#if error.date}}
+        <div class="invalid-feedback">
+          {{error.date.message}}
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="form-group">
+      <label for="categories">Categories</label>
+      <select name="category">
+        {{#each categories as |category|}}
+          <option value="{{category}}">{{category}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Max. price</label>
+      <input name="price" type="number" class="form-control" id="price" placeholder="€">
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-outline btn-sm">
+      Search
+    </button>
+  </form>
+</div>
