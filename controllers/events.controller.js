@@ -57,6 +57,7 @@ module.exports.index = (req, res, next) => {
     .then(([userEvents, searchEvents]) => {
       res.render(
         `${role}/index`, {
+          event: new Event(),
           nextEvent: userEvents[0],
           searchEvents,
           dateEvents: _groupEventsByDate(userEvents)
@@ -94,10 +95,10 @@ module.exports.create = (req, res, next) => {
     company: req.session.user.id,
     name: req.body.name,
     description: req.body.description,
-    date: req.body.date,
+    date: new Date(req.body.date),
     images: req.files[0] ? req.files.map(file => file.url) : '/images/event-default.png',
     location: req.body.location,
-    categories: req.body.categories,
+    categories: req.body.category,
     capacity: req.body.capacity,
     price: req.body.price,
   })
