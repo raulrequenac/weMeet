@@ -46,7 +46,11 @@
 
   <div class="form-group">
     <label for="categories">Categories</label>
-    <input name="categories" type="text" class="form-control" id="categories" placeholder="Categories">
+    <select name="category">
+        {{#each categories as |category|}}
+          <option value="{{category}}">{{category}}</option>
+        {{/each}}
+      </select>
   </div>
 
   <div class="form-group">

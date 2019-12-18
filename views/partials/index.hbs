@@ -1,13 +1,13 @@
 <div class="general">
   <section class="white-bg">
     <div class="container p-5">
-      {{>nextEvent nextEvent=events.[0]}}
+      {{>nextEvent nextEvent=nextEvent}}
     </div>
   </section>
   <section class="section2">
     <div class="container p-5">
-      {{>searchEvent events}}
+      {{>searchEvent events=searchEvents}}
     </div>
   </section>
-  {{>calendar}}
+  {{>calendar dateEvents=dateEvents}}
 </div>

@@ -16,7 +16,7 @@ module.exports = router;
 //Index
 router.get('/', authMiddleware.isAuthenticated, eventsController.index)
 //Create
-router.post('/events/new', authMiddleware.isAuthenticated, uploadCloud.array('images', 6), eventsController.create)
+router.post('/events/new', authMiddleware.isAuthenticated, uploadCloud.array('images'), eventsController.create)
 //Update
 router.get('/events/edit/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.edit)
 router.post('/events/edit/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.doEdit)
