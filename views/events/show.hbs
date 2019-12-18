@@ -2,7 +2,7 @@
 <h1>{{event.name}}</h1>
 <p>{{event.description}}</p>
 <h5>{{event.location}}</h5>
-<h2>{{event.date}}</h2>
+<h2>{{dateFormat event.date}}</h2>
 <p>
   {{#each event.category as |category|}}
   {{category}}, 
@@ -10,6 +10,6 @@
 </p>
 <h5>{{event.capacity}}</h5>
 <h3>{{event.price}}</h3>
-{{#if currentUser.role === "/companies"}}
-  <a href="/events/edit/{{event.id}}"></a>
+{{#if (equals currentUser.role 'company')}}
+  <a href="/events/edit/{{event.id}}" class="btn btn-success">Edit</a>
 {{/if}}
