@@ -16,3 +16,11 @@ hbs.registerHelper('getProfileImage', (user) => {
 hbs.registerHelper('getUser', (user) => {
   return user.role === "user" ? "/users" : "/companies";
 })
+
+hbs.registerHelper('dateFormat', (date) => {
+  return date.toDateString();
+})
+
+hbs.registerHelper('equals', (a, b) => {
+  return a===b;
+})

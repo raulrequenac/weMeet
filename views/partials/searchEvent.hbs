@@ -2,12 +2,16 @@
   <h1>Search</h1>
   {{> searchForm}}
 </div>
-{{#each events as |event|}}
-  <div class="events card container">
-    <div class="d-flex justify-content-between">
-      <h2 class="d-inline">{{event.name}}</h2>
-      <h6 class="d-inline">{{event.date}}</h6>
+{{#if events}}
+  {{#each events as |event|}}
+    <div class="events card container">
+      <div class="d-flex justify-content-between">
+        <a href="/events/{{event.id}}" class="d-inline">{{event.name}}</a>
+        <h6 class="d-inline">{{dateFormat event.date}}</h6>
+      </div>
+      <p>{{event.description}}</p>
     </div>
-    <p>{{event.description}}</p>
-  </div>
-{{/each}}
+  {{/each}}
+{{else}}
+  <h3>No events found</h3>
+{{/if}}

@@ -5,7 +5,6 @@ const Enroll = require('../models/enroll.model');
 
 module.exports.index = (req, res, next) => {
   const user = req.session.user
-  const role = user.role === "user" ? "users" : "companies";
   const {
     from,
     to,
@@ -32,7 +31,10 @@ module.exports.index = (req, res, next) => {
     } : {}
   }
 
-  const userEventsPromise = Event.find()
+  const searchEventsPromise = _findEventsByCriteria(criteria)
+
+  if (user.role ==='user') {
+    const userEventsPromise = Event.find()
     .sort({
       date: -1
     })
@@ -45,26 +47,43 @@ module.exports.index = (req, res, next) => {
       }
     });
 
-  const searchEventsPromise = Event.find(criteria)
+    Promise.all([userEventsPromise, searchEventsPromise])
+    .then(([userEvents, searchEvents]) => {
+        res.render(
+          `users/index`, {
+            nextEvent: userEvents[0],
+            searchEvents,
+            dateEvents: _groupEventsByDate(userEvents)
+          }
+        )
+    })
+    .catch(next)
+  } else {
+    const companyEventsPromise = _findEventsByCriteria({company: user.id})
+
+    Promise.all([companyEventsPromise, searchEventsPromise])
+    .then(([companyEvents, searchEvents]) => {
+        res.render(
+          `companies/index`, {
+            newEvent: new Event(),
+            nextEvent: companyEvents[0],
+            searchEvents,
+            dateEvents: _groupEventsByDate(companyEvents)
+          }
+        )
+    })
+    .catch(next)
+  }
+}
+
+_findEventsByCriteria = function(criteria) {
+  return Event.find(criteria)
     .sort({
       date: -1
     })
     .limit(10)
     .populate('company')
     .populate('enroll');
-
-  Promise.all([userEventsPromise, searchEventsPromise])
-    .then(([userEvents, searchEvents]) => {
-      res.render(
-        `${role}/index`, {
-          event: new Event(),
-          nextEvent: userEvents[0],
-          searchEvents,
-          dateEvents: _groupEventsByDate(userEvents)
-        }
-      )
-    })
-    .catch(next)
 }
 
 _groupEventsByDate = function (events) {
@@ -86,7 +105,7 @@ _groupEventsByDate = function (events) {
         return event.date.getMonth() === date.month &&
           event.date.getFullYear() === date.year;
       })
-      .map(event => `${date.getDate()} -- ${event.name}`)
+      .map(event => `${event.date.getDate()} -- ${event.name}`)
   }));
 }
 
@@ -102,6 +121,7 @@ module.exports.create = (req, res, next) => {
     capacity: req.body.capacity,
     price: req.body.price,
   })
+  console.log(event)
 
   event.save()
     .then(() => {
@@ -199,9 +219,7 @@ module.exports.enroll = (req, res, next) => {
 }
 
 module.exports.show = (req, res, next) => {
-  Event.findOne({
-      id: req.params.id
-    })
+  Event.findById(req.params.id)
     .then(event => {
       if (event) {
         res.render('events/show', {
