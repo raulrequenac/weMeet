@@ -58,7 +58,7 @@ module.exports.doEdit = (req, res, next) => {
     email,
     description,
     logo
-  } = res.body;
+  } = req.body;
 
   User.findByIdAndUpdate(req.session.user.id, {
       name,
@@ -79,7 +79,7 @@ module.exports.editImages = (req, res) => {
 }
 
 module.exports.doEditImages = (req, res, next) => {
-  const {images} = res.body;
+  const {images} = req.body;
 
   Company.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
     .then(res.redirect('/'))
@@ -93,7 +93,7 @@ module.exports.editPassword = (req, res) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  const {password} = res.body;
+  const {password} = req.body;
 
   Company.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
     .then(res.redirect('/'))
