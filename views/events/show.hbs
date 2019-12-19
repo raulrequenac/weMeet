@@ -10,6 +10,6 @@
 </p>
 <h5>{{event.capacity}}</h5>
 <h3>{{event.price}}</h3>
-{{#if (equals currentUser.role 'company')}}
+{{#if (equals currentUser event)}}
   <a href="/events/edit/{{event.id}}" class="btn btn-success">Edit</a>
 {{/if}}
