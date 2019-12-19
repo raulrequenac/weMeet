@@ -5,7 +5,7 @@ const mailer = require('../config/mailer.config');
 const passport = require('passport')
 
 module.exports.profile = (req, res) => {
-  res.render('users/profile', {user: req.session.user.id});
+  res.render('users/profile', {user: req.session.user});
 }
 
 module.exports.new = (_, res) => {

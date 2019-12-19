@@ -7,7 +7,7 @@
           <h3>{{dEvents.monthYear}}</h3>
           <ul>
             {{#each dEvents.events as |event|}}
-              <li>{{event}}</li>
+              <li><a href="/events/{{event.eventId}}">{{event.event}}</a></li>
             {{/each}}
           </ul>
         {{/each}}

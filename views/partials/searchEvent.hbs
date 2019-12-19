@@ -6,10 +6,22 @@
   {{#each events as |event|}}
     <div class="events card container">
       <div class="d-flex justify-content-between">
-        <a href="/events/{{event.id}}" class="d-inline">{{event.name}}</a>
-        <h6 class="d-inline">{{dateFormat event.date}}</h6>
+        <div class="d-inline">
+          <a href="/events/{{event.id}}">{{event.name}}</a>
+          <p>{{event.description}}</p>
+        </div>
+        <div class="d-inline">
+          <h6>{{date event.date}}</h6>
+          {{#if (isUser ../currentUser)}}
+            {{#if (isEnrolled ../enrolls event)}}
+              <button class="btn btn-primary enroll" id="{{event.id}}" onclick="enroll(event)">Enrolled</button>
+            {{else}}
+              <button class="btn btn-primary enroll" id="{{event.id}}" onclick="enroll(event)">Enroll</button>
+            {{/if}}
+          {{/if}}
+        </div>
       </div>
-      <p>{{event.description}}</p>
+
     </div>
   {{/each}}
 {{else}}
