@@ -1,4 +1,5 @@
 require('dotenv').config()
+const categories = require('./constants/categories')
 
 const createError = require('http-errors');
 const express = require('express');
@@ -33,6 +34,7 @@ app.use(session);
 app.use(passportConfig);
 
 app.use((req, res, next) => {
+  res.locals.categories = categories
   res.locals.currentUser = req.session.user
   req.currentUser = req.session.user
   next()
@@ -97,5 +99,3 @@ function normalizePort(val) {
 
   return false;
 }
-
-
