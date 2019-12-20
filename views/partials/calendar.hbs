@@ -1,4 +1,4 @@
-<section class="black-bg white-text page-footer">
+<footer class="black-bg white-text footer">
   <div class="container p-5">
     <h1>Calendar</h1>
     {{#if dateEvents}}
@@ -12,10 +12,10 @@
           </ul>
         {{/each}}
       </ul>
-    {{else if (isUser user)}}
+    {{else if (isUser currentUser)}}
       <h4>You are not enrolled to any event!!</h4>
     {{else}}
       <h4>You dont have any events!!</h4>
     {{/if}}
   </div>
-</section>
+</footer>

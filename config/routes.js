@@ -37,7 +37,7 @@ router.post('/users/new', authMiddleware.isNotAuthenticated, uploadCloud.array('
 router.get('/users/edit', authMiddleware.isAuthenticated, usersController.edit)
 router.post('/users/edit', authMiddleware.isAuthenticated, usersController.doEdit)
 router.get('/users/edit/images', authMiddleware.isAuthenticated, usersController.editImages)
-router.post('/users/edit/images', authMiddleware.isAuthenticated, usersController.doEditImages)
+router.post('/users/edit/images', authMiddleware.isAuthenticated, uploadCloud.array('images'), usersController.doEditImages)
 router.get('/users/edit/password', authMiddleware.isAuthenticated, usersController.editPassword)
 router.post('/users/edit/password', authMiddleware.isAuthenticated, usersController.doEditPassword)
 //Delete
@@ -55,7 +55,7 @@ router.post('/companies/new', authMiddleware.isNotAuthenticated, uploadCloud.sin
 router.get('/companies/edit', authMiddleware.isAuthenticated, companiesController.edit)
 router.post('/companies/edit', authMiddleware.isAuthenticated, companiesController.doEdit)
 router.get('/companies/edit/logo', authMiddleware.isAuthenticated, companiesController.editLogo)
-router.post('/companies/edit/logo', authMiddleware.isAuthenticated, companiesController.doEditLogo)
+router.post('/companies/edit/logo', authMiddleware.isAuthenticated, uploadCloud.single('logo'), companiesController.doEditLogo)
 router.get('/companies/edit/password', authMiddleware.isAuthenticated, companiesController.editPassword)
 router.post('/companies/edit/password', authMiddleware.isAuthenticated, companiesController.doEditPassword)
 //Delete
