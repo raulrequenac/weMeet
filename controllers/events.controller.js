@@ -41,11 +41,11 @@ module.exports.index = (req, res, next) => {
 
     Promise.all([searchEventsPromise, userEnrollsPromise])
       .then(([searchEvents, userEnrolls]) => {
-        const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
+        const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date).slice(0, 10);
         res.render(
           `users/index`, {
             nextEvent: userEvents[0],
-            searchEvents: searchEvents.sort((a, b) => a.date-b.date                                                                                           ),
+            searchEvents: searchEvents.sort((a, b) => a.date - b.date),
             userEnrolls,
             dateEvents: this.groupEventsByDate(userEvents),
             user
@@ -137,13 +137,14 @@ module.exports.create = (req, res, next) => {
 
 module.exports.edit = (req, res, next) => {
   const id = req.params.id;
-  const user = req.session.user;
 
-  Event.find({
-      company: user,
-      id: id
+  Event.findById(id)
+    .then(event => {
+      console.log(event);
+      res.render('events/edit', {
+        event
+      })
     })
-    .then(event => res.render('events/edit', event))
     .catch(next)
 }
 
