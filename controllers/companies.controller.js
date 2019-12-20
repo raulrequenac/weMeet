@@ -1,9 +1,43 @@
 const mongoose = require('mongoose');
 const Company = require('../models/company.model');
+const Event = require('../models/event.model');
 const mailer = require('../config/mailer.config');
 
-module.exports.profile = (req, res) => {
-  res.render('companies/profile', {company: req.session.user})
+module.exports.profile = (req, res, next) => {
+  Company.findById(req.params.id)
+    .then(company => {
+      return Event.find({company})
+        .then(events => {
+          res.render('companies/profile', {company, dateEvents: _groupEventsByDate(events)});
+        });
+    })
+    .catch(next);
+}
+
+_groupEventsByDate = function (events) {
+  const dates = events.map(event => ({
+    month: event.date.getMonth(),
+    year: event.date.getFullYear()
+  }));
+  const uniqueDates = dates.reduce((acc, curr) => {
+    if (!acc.some(elem => elem.month === curr.month && elem.year === curr.year)) {
+      return [...acc, curr]
+    }
+    return acc
+  }, [])
+
+  return uniqueDates.map(date => ({
+    monthYear: `${date.month+1}/${date.year}`,
+    events: events
+      .filter(event => {
+        return event.date.getMonth() === date.month &&
+          event.date.getFullYear() === date.year;
+      })
+      .map(event => ({
+        event: `${event.date.getDate()} -- ${event.name}`,
+        eventId: event.id
+      }))
+  }));
 }
 
 module.exports.new = (_, res) => {

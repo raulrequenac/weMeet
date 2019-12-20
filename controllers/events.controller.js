@@ -37,10 +37,7 @@ module.exports.index = (req, res, next) => {
       .find({
         user: user.id
       })
-      .populate({
-        path: 'event',
-        sort: '-date'
-      });
+      .populate('event');
 
     Promise.all([searchEventsPromise, userEnrollsPromise])
       .then(([searchEvents, userEnrolls]) => {

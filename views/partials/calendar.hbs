@@ -12,8 +12,10 @@
           </ul>
         {{/each}}
       </ul>
-    {{else}}
+    {{else if (isUser user)}}
       <h4>You are not enrolled to any event!!</h4>
+    {{else}}
+      <h4>You dont have any events!!</h4>
     {{/if}}
   </div>
 </section>
