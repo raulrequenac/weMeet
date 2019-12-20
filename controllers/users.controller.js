@@ -7,12 +7,15 @@ const passport = require('passport');
 
 module.exports.profile = (req, res, next) => {
   const userId = req.params.id;
-  Enroll
+  const userPromise = User.findById(userId);
+  const enrollPromise = Enroll
     .find({user: userId})
     .populate('event')
-    .then(([userEnrolls]) => {
+    
+  Promise.all([userPromise, enrollPromise])
+    .then(([user, userEnrolls]) => {
       const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
-      res.render('users/profile', {dateEvents: eventsController.groupEventsByDate(userEvents)})
+      res.render('users/profile', {dateEvents: eventsController.groupEventsByDate(userEvents), user})
     })
     .catch(next);
 }
