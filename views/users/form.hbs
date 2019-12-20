@@ -57,7 +57,7 @@
         <div>
           <label for="age">Date of birth</label>
           <input name="age" type="date" class="form-control {{#if error.age }}is-invalid{{/if}}" id="age"
-            placeholder="Enter age" value="{{ user.age }}">
+            placeholder="Enter age" value="{{dateValue user.age}}">
 
           {{#if error.age}}
           <div class="invalid-feedback">
