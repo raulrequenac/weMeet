@@ -18,10 +18,10 @@ router.get('/', authMiddleware.isAuthenticated, eventsController.index)
 //Create
 router.post('/events/new', authMiddleware.isAuthenticated, uploadCloud.array('images'), eventsController.create)
 //Update
-router.get('/events/edit/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.edit)
-router.post('/events/edit/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.doEdit)
-router.get('/events/edit/images/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.editImages)
-router.post('/events/edit/images/:id', authMiddleware.isAuthenticated, authMiddleware.canEditEvents, eventsController.doEditImages)
+router.get('/events/edit/:id', authMiddleware.isAuthenticated, eventsController.edit)
+router.post('/events/edit/:id', authMiddleware.isAuthenticated, eventsController.doEdit)
+router.get('/events/edit/images/:id', authMiddleware.isAuthenticated, eventsController.editImages)
+router.post('/events/edit/images/:id', authMiddleware.isAuthenticated, eventsController.doEditImages)
 //Show
 router.get('/events/:id', authMiddleware.isAuthenticated, eventsController.show)
 //Enroll

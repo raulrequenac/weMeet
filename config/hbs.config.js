@@ -17,10 +17,14 @@ hbs.registerHelper('getUser', (user) => {
   return user.role === "user" ? "/users" : "/companies";
 })
 
-hbs.registerHelper('dateFormat', (date) => {
-  return date.toDateString();
+hbs.registerHelper('equals', (user, event) => {
+  return user.id == event.company;
 })
 
-hbs.registerHelper('equals', (a, b) => {
-  return a===b;
+hbs.registerHelper('isUser', (user) => {
+  return user.role === 'user' ? true : false;
+})
+
+hbs.registerHelper('isEnrolled', (enrolls, event) => {
+  return enrolls.some(enroll => enroll.event.id == event.id)
 })

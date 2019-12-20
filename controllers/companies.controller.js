@@ -1,9 +1,43 @@
 const mongoose = require('mongoose');
 const Company = require('../models/company.model');
+const Event = require('../models/event.model');
 const mailer = require('../config/mailer.config');
 
-module.exports.profile = (req, res) => {
-  res.render('companies/profile', {company: req.session.user})
+module.exports.profile = (req, res, next) => {
+  Company.findById(req.params.id)
+    .then(company => {
+      return Event.find({company})
+        .then(events => {
+          res.render('companies/profile', {company, dateEvents: _groupEventsByDate(events)});
+        });
+    })
+    .catch(next);
+}
+
+_groupEventsByDate = function (events) {
+  const dates = events.map(event => ({
+    month: event.date.getMonth(),
+    year: event.date.getFullYear()
+  }));
+  const uniqueDates = dates.reduce((acc, curr) => {
+    if (!acc.some(elem => elem.month === curr.month && elem.year === curr.year)) {
+      return [...acc, curr]
+    }
+    return acc
+  }, [])
+
+  return uniqueDates.map(date => ({
+    monthYear: `${date.month+1}/${date.year}`,
+    events: events
+      .filter(event => {
+        return event.date.getMonth() === date.month &&
+          event.date.getFullYear() === date.year;
+      })
+      .map(event => ({
+        event: `${event.date.getDate()} -- ${event.name}`,
+        eventId: event.id
+      }))
+  }));
 }
 
 module.exports.new = (_, res) => {
@@ -58,7 +92,7 @@ module.exports.doEdit = (req, res, next) => {
     email,
     description,
     logo
-  } = res.body;
+  } = req.body;
 
   User.findByIdAndUpdate(req.session.user.id, {
       name,
@@ -79,7 +113,7 @@ module.exports.editImages = (req, res) => {
 }
 
 module.exports.doEditImages = (req, res, next) => {
-  const {images} = res.body;
+  const {images} = req.body;
 
   Company.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
     .then(res.redirect('/'))
@@ -93,7 +127,7 @@ module.exports.editPassword = (req, res) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  const {password} = res.body;
+  const {password} = req.body;
 
   Company.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
     .then(res.redirect('/'))

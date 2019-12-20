@@ -7,13 +7,15 @@
           <h3>{{dEvents.monthYear}}</h3>
           <ul>
             {{#each dEvents.events as |event|}}
-              <li>{{event}}</li>
+              <li><a href="/events/{{event.eventId}}">{{event.event}}</a></li>
             {{/each}}
           </ul>
         {{/each}}
       </ul>
-    {{else}}
+    {{else if (isUser user)}}
       <h4>You are not enrolled to any event!!</h4>
+    {{else}}
+      <h4>You dont have any events!!</h4>
     {{/if}}
   </div>
 </section>

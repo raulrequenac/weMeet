@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Event = require('../models/event.model');
-const User = require('../models/user.model');
 const Enroll = require('../models/enroll.model');
 
 module.exports.index = (req, res, next) => {
@@ -31,38 +30,35 @@ module.exports.index = (req, res, next) => {
     } : {}
   }
 
-  const searchEventsPromise = _findEventsByCriteria(criteria)
+  const searchEventsPromise = _findEventsByCriteria(criteria);
 
-  if (user.role ==='user') {
-    const userEventsPromise = Event.find()
-    .sort({
-      date: -1
-    })
-    .limit(10)
-    .populate('company')
-    .populate({
-      path: 'enroll',
-      match: {
+  if (user.role === 'user') {
+    const userEnrollsPromise = Enroll
+      .find({
         user: user.id
-      }
-    });
+      })
+      .populate('event');
 
-    Promise.all([userEventsPromise, searchEventsPromise])
-    .then(([userEvents, searchEvents]) => {
+    Promise.all([searchEventsPromise, userEnrollsPromise])
+      .then(([searchEvents, userEnrolls]) => {
+        const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
         res.render(
           `users/index`, {
             nextEvent: userEvents[0],
-            searchEvents,
+            searchEvents: searchEvents.sort((a, b) => a.date-b.date                                                                                           ),
+            userEnrolls,
             dateEvents: _groupEventsByDate(userEvents)
           }
         )
-    })
-    .catch(next)
+      })
+      .catch(next)
   } else {
-    const companyEventsPromise = _findEventsByCriteria({company: user.id})
+    const companyEventsPromise = _findEventsByCriteria({
+      company: user.id
+    })
 
     Promise.all([companyEventsPromise, searchEventsPromise])
-    .then(([companyEvents, searchEvents]) => {
+      .then(([companyEvents, searchEvents]) => {
         res.render(
           `companies/index`, {
             newEvent: new Event(),
@@ -71,16 +67,13 @@ module.exports.index = (req, res, next) => {
             dateEvents: _groupEventsByDate(companyEvents)
           }
         )
-    })
-    .catch(next)
+      })
+      .catch(next)
   }
 }
 
-_findEventsByCriteria = function(criteria) {
+_findEventsByCriteria = function (criteria) {
   return Event.find(criteria)
-    .sort({
-      date: -1
-    })
     .limit(10)
     .populate('company')
     .populate('enroll');
@@ -105,7 +98,10 @@ _groupEventsByDate = function (events) {
         return event.date.getMonth() === date.month &&
           event.date.getFullYear() === date.year;
       })
-      .map(event => `${event.date.getDate()} -- ${event.name}`)
+      .map(event => ({
+        event: `${event.date.getDate()} -- ${event.name}`,
+        eventId: event.id
+      }))
   }));
 }
 
@@ -140,8 +136,12 @@ module.exports.create = (req, res, next) => {
 
 module.exports.edit = (req, res, next) => {
   const id = req.params.id;
+  const user = req.session.user;
 
-  Event.findById(id)
+  Event.find({
+      company: user,
+      id: id
+    })
     .then(event => res.render('events/edit', event))
     .catch(next)
 }
@@ -197,7 +197,7 @@ module.exports.enroll = (req, res, next) => {
   Enroll.findOne(params)
     .then(enroll => {
       if (enroll) {
-        enroll.findByIdAndRemove(enroll.id)
+        Enroll.findByIdAndRemove(enroll.id)
           .then(() => {
             res.json({
               enrolls: -1

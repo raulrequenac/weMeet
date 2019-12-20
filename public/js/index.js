@@ -45,3 +45,17 @@ window.onload = function () {
     })
   }
 }
+
+function enroll(event) {
+  const button = event.target
+
+  axios.post(`/events/${button.id}/enroll`)
+    .then(response => {
+      if (response.data.enrolls > 0) {
+        button.innerText = 'Enrolled'
+      } else {
+        button.innerText = 'Enroll'
+      }
+    })
+    .catch(console.error)
+}

@@ -1,4 +1,6 @@
-{{>carousel element=currentUser}}
+{{>carousel element=user}}
 
-<h1>{{currentUser.name}}</h1>
-<p>{{currentUser.bio}}</p>
+<h1>{{user.name}}</h1>
+<p>{{user.bio}}</p>
+
+{{>calendar dateEvents=dateEvents user=user}}
