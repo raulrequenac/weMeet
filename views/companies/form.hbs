@@ -1,4 +1,4 @@
-{{#if user.isNew}}
+{{#if company.isNew}}
   <form action="/companies/new" method="POST" enctype="multipart/form-data" class="container">
 
     <div class="form-group">
@@ -15,7 +15,7 @@
     <div class="form-group">
       <label for="password">Password</label>
       <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}" id="password"
-        placeholder="password" value="{{ user.password }}">
+        placeholder="password" value="{{ company.password }}">
 
       {{#if error.password}}
         <div class="invalid-feedback">
@@ -26,14 +26,14 @@
 {{else}}
   <form action="/companies/edit" method="POST" enctype="multipart/form-data" id="form">
 
-    <a href="/companies/edit/images" class="btn btn-primary">Change images</a>
+    <a href="/companies/edit/logo" class="btn btn-primary">Change logo</a>
     <a href="/companies/edit/password" class="btn btn-primary">Change Password</a>
 {{/if}}
 
 <div class="form-group">
   <label for="name">Name</label>
   <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
-    placeholder="Enter name" value="{{ user.name }}">
+    placeholder="Enter name" value="{{ company.name }}">
 
   {{#if error.name}}
     <div class="invalid-feedback">
@@ -46,7 +46,7 @@
 <div class="form-group">
   <label for="email">Email</label>
   <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
-    placeholder="Enter email" value="{{ user.email }}">
+    placeholder="Enter email" value="{{ company.email }}">
 
   {{#if error.email}}
     <div class="invalid-feedback">
@@ -58,7 +58,7 @@
 <div class="form-group">
   <label for="description">Description</label>
   <textarea name="description" type="text" class="form-control {{#if error.description }}is-invalid{{/if}}"
-    id="description" placeholder="Enter description" value="{{ user.description }}" rows="4"></textarea>
+    id="description" placeholder="Enter description" value="{{ company.description }}" rows="4"></textarea>
 
   {{#if error.description}}
     <div class="invalid-feedback">
