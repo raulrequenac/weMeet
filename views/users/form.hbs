@@ -1,86 +1,96 @@
-{{#if user.isNew}}
-  <form action="/users/new" method="POST" enctype="multipart/form-data" id="form">
+<div class="d-flex justify-content-between align-items-center">
+  <div class="col-8 order-md-1 mt-5 p-3 ">
+    {{#if user.isNew}}
+    <form action="/users/new" method="POST" enctype="multipart/form-data" id="form">
+      <div class="form-group">
+        <label for="images">Images (6 max.)</label>
+        <input name="images" type="file" class="form-control-file  {{#if error.images }}is-invalid{{/if}} " id="images"
+          placeholder="Enter images url" multiple>
 
-    <div class="form-group">
-      <label for="images">Images (6 max.)</label>
-      <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}} " id="images"
-        placeholder="Enter images url" multiple>
-
-      {{#if error.images}}
+        {{#if error.images}}
         <div class="invalid-feedback">
           {{error.images.message}}
         </div>
-      {{/if}}
-    </div>
+        {{/if}}
+      </div>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}" id="password"
-        placeholder="password">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}"
+          id="password" placeholder="password">
 
-      {{#if error.password}}
+        {{#if error.password}}
         <div class="invalid-feedback">
           {{error.password.message}}
         </div>
-      {{/if}}
-    </div>
-{{else}}
-  <form action="/users/edit" method="POST" enctype="multipart/form-data" id="form">
-  
-    <a href="/users/edit/images" class="btn btn-primary">Change images</a>
-    <a href="/users/edit/password" class="btn btn-primary">Change Password</a>
-{{/if}}
+        {{/if}}
+      </div>
+      {{else}}
+        <a href="/users/edit/images" class="btn light-blue btn-primary">Change images</a>
+        <a href="/users/edit/password" class="btn light-blue btn-primary">Change Password</a>
+        {{/if}}
 
-<div class="form-group">
-  <label for="name">Name</label>
-  <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
-    placeholder="Enter name" value="{{ user.name }}">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
+            placeholder="Enter name" value="{{user.name}}">
 
-  {{#if error.name}}
-    <div class="invalid-feedback">
-      {{error.name.message}}
-    </div>
-  {{/if}}
+          {{#if error.name}}
+          <div class="invalid-feedback">
+            {{error.name.message}}
+          </div>
+          {{/if}}
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
+            placeholder="Enter email" value="{{ user.email }}">
+
+          {{#if error.email}}
+          <div class="invalid-feedback">
+            {{error.email.message}}
+          </div>
+          {{/if}}
+        </div>
+
+        <div>
+          <label for="age">Date of birth</label>
+          <input name="age" type="date" class="form-control {{#if error.age }}is-invalid{{/if}}" id="age"
+            placeholder="Enter age" value="{{ user.age }}">
+
+          {{#if error.age}}
+          <div class="invalid-feedback">
+            You have to be over 18!!!!!
+          </div>
+          {{/if}}
+        </div>
+
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea name="bio" type="text" class="form-control {{#if error.bio }}is-invalid{{/if}}" id="bio"
+            placeholder="Enter bio" rows="4">{{ user.bio }}</textarea>
+
+          {{#if error.bio}}
+          <div class="invalid-feedback">
+            {{error.bio.message}}
+          </div>
+          {{/if}}
+        </div>
+
+        {{#if user.isNew}}
+        <button type="submit" class="btn light-blue btn-primary" id="submit">
+          Sign up
+        </button>
+        {{else}}
+        <button type="submit" class="btn light-blue btn-primary" id="submit">
+          Update
+        </button>
+        {{/if}}
+    </form>
+  </div>
+
+  <div class="col-4">
+    <img src="../images/undraw_editable_dywm.svg" style="width:calc(100% - 16px)">
+  </div>
 </div>
-
-
-<div class="form-group">
-  <label for="email">Email</label>
-  <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
-    placeholder="Enter email" value="{{ user.email }}">
-
-  {{#if error.email}}
-    <div class="invalid-feedback">
-      {{error.email.message}}
-    </div>
-  {{/if}}
-</div>
-
-<div>
-  <label for="age">Date of birth</label>
-  <input name="age" type="date" class="form-control {{#if error.age }}is-invalid{{/if}}" id="age"
-    placeholder="Enter age" value="{{ user.age }}">
-
-  {{#if error.age}}
-    <div class="invalid-feedback">
-      You have to be over 18!!!!!
-    </div>
-  {{/if}}
-</div>
-
-<div class="form-group">
-  <label for="bio">Bio</label>
-  <textarea name="bio" type="text" class="form-control {{#if error.bio }}is-invalid{{/if}}" id="bio"
-    placeholder="Enter bio" value="{{ user.bio }}" rows="4"></textarea>
-
-  {{#if error.bio}}
-    <div class="invalid-feedback">
-      {{error.bio.message}}
-    </div>
-  {{/if}}
-</div>
-
-<button type="submit" class="btn btn-primary" id="submit">
-  Sign up
-</button>
-</form>
