@@ -23,7 +23,7 @@ hbs.registerHelper('equals', (user, event) => {
 })
 
 hbs.registerHelper('isUser', (user) => {
-  return user.role === 'user' ? true : false;
+  return user.role === 'user';
 })
 
 hbs.registerHelper('isEnrolled', (enrolls, event) => {
