@@ -47,7 +47,7 @@ module.exports.index = (req, res, next) => {
             nextEvent: userEvents[0],
             searchEvents: searchEvents.sort((a, b) => a.date-b.date                                                                                           ),
             userEnrolls,
-            dateEvents: _groupEventsByDate(userEvents),
+            dateEvents: this.groupEventsByDate(userEvents),
             user
           }
         )
@@ -65,7 +65,7 @@ module.exports.index = (req, res, next) => {
             newEvent: new Event(),
             nextEvent: companyEvents[0],
             searchEvents,
-            dateEvents: groupEventsByDate(companyEvents)
+            dateEvents: this.groupEventsByDate(companyEvents)
           }
         )
       })
