@@ -1,16 +1,24 @@
-<form action="/companies/edit/logo" method="POST" enctype="multipart/form-data" id="form">
-  <div class="form-group">
-      <label for="logo">Logo</label>
-      <input name="logo" type="file" class="form-control-file {{#if error.Logo }}is-invalid{{/if}}" id="logo"
-        placeholder="Enter Logo url">
-      {{#if error.Logo}}
-        <div class="invalid-feedback">
-          {{error.Logo.message}}
+<div class="d-flex justify-content-between align-items-center p-3">
+  <div class="col-8 order-md-1 mt-5 p-3 ">     
+    <form action="/companies/edit/logo" method="POST" enctype="multipart/form-data" id="form">
+      <div class="form-group">
+          <label for="logo">Logo</label>
+          <input name="logo" type="file" class="form-control-file {{#if error.Logo }}is-invalid{{/if}}" id="logo"
+            placeholder="Enter Logo url">
+          {{#if error.Logo}}
+            <div class="invalid-feedback">
+              {{error.Logo.message}}
+            </div>
+          {{/if}}
         </div>
-      {{/if}}
-    </div>
 
-  <button type="submit" class="btn btn-primary" id="submit">
-    Sign up
-  </button>
-</form>
+      <button type="submit" class="btn light-blue btn-primary" id="submit">
+        Update 
+      </button>
+    </form>
+  </div>
+
+  <div class="col-4">
+    <img src="/images/undraw_to_the_moon_v1mv.svg" style="width:calc(100% - 16px)">
+  </div>
+</div>
