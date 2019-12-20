@@ -1,43 +1,25 @@
 const mongoose = require('mongoose');
 const Company = require('../models/company.model');
 const Event = require('../models/event.model');
+const eventsController = require('./events.controller');
 const mailer = require('../config/mailer.config');
 
 module.exports.profile = (req, res, next) => {
-  Company.findById(req.params.id)
-    .then(company => {
-      return Event.find({company})
-        .then(events => {
-          res.render('companies/profile', {company, dateEvents: _groupEventsByDate(events)});
-        });
+  const companyId = req.params.id;
+  const companyPromise = Company.findById(companyId);
+  const eventsPromise = Event.find({
+    company: companyId
+  });
+
+  Promise.all([companyPromise, eventsPromise])
+    .then(([company, events]) => {
+      console.log(company)
+      res.render('companies/profile', {
+        dateEvents: eventsController.groupEventsByDate(events),
+        company
+      });
     })
     .catch(next);
-}
-
-_groupEventsByDate = function (events) {
-  const dates = events.map(event => ({
-    month: event.date.getMonth(),
-    year: event.date.getFullYear()
-  }));
-  const uniqueDates = dates.reduce((acc, curr) => {
-    if (!acc.some(elem => elem.month === curr.month && elem.year === curr.year)) {
-      return [...acc, curr]
-    }
-    return acc
-  }, [])
-
-  return uniqueDates.map(date => ({
-    monthYear: `${date.month+1}/${date.year}`,
-    events: events
-      .filter(event => {
-        return event.date.getMonth() === date.month &&
-          event.date.getFullYear() === date.year;
-      })
-      .map(event => ({
-        event: `${event.date.getDate()} -- ${event.name}`,
-        eventId: event.id
-      }))
-  }));
 }
 
 module.exports.new = (_, res) => {
@@ -82,8 +64,8 @@ module.exports.create = (req, res, next) => {
 
 module.exports.edit = (req, res) => {
   res.render('companies/form', {
-      company: req.session.user
-    })
+    company: req.session.user
+  })
 }
 
 module.exports.doEdit = (req, res, next) => {
@@ -102,7 +84,10 @@ module.exports.doEdit = (req, res, next) => {
     }, {
       new: true
     })
-    .then(res.redirect('/'))
+    .then(user => {
+      req.session.user = user
+      res.redirect('/')
+    })
     .catch(next);
 }
 
@@ -113,10 +98,17 @@ module.exports.editLogo = (req, res) => {
 }
 
 module.exports.doEditLogo = (req, res, next) => {
-  const {logo} = req.body;
+  const logo = req.file ? req.file.url : '/images/company-profile.jpg'
 
-  Company.findByIdAndUpdate(req.session.user.id, {logo}, {new: true})
-    .then(res.redirect('/'))
+  Company.findByIdAndUpdate(req.session.user.id, {
+      logo
+    }, {
+      new: true
+    })
+    .then(user => {
+      req.session.user = user
+      res.redirect('/')
+    })
     .catch(next);
 }
 
@@ -127,16 +119,27 @@ module.exports.editPassword = (req, res) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  const {password} = req.body;
+  const password = req.body.password;
 
-  Company.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
-    .then(res.redirect('/'))
-    .catch(next);
+  if (password) {
+    Company.findByIdAndUpdate(req.session.user.id, {
+        password
+      }, {
+        new: true
+      })
+      .then(user => {
+        req.session.user = user
+        res.redirect('/')
+      })
+      .catch(next);
+  } else {
+    res.redirect('/')
+  }
 }
 
 module.exports.delete = (req, res, next) => {
   Company.findByIdAndRemove(req.session.user.id)
-    .then(res.redirect('/login'))
+    .then(res.redirect('/logout'))
     .catch(error => next(error));
 }
 
@@ -145,26 +148,38 @@ module.exports.login = (_, res) => {
 }
 
 module.exports.doLogin = (req, res, next) => {
-  const {email, password} = req.body;
+  const {
+    email,
+    password
+  } = req.body;
   if (!email || !password) {
-    return res.render('companies/login', {company:req.body})
-  } 
-  Company.findOne( {email:email, validated:true})
+    return res.render('companies/login', {
+      company: req.body
+    })
+  }
+  Company.findOne({
+      email: email,
+      validated: true
+    })
     .then(company => {
       if (!company) {
-        res.render('companies/login', {company:req.body})
+        res.render('companies/login', {
+          company: req.body
+        })
       } else {
-        return company.checkPassword (password)
-          .then (match => {
+        return company.checkPassword(password)
+          .then(match => {
             if (!match) {
-              res.render('companies/login', {company:req.body})
+              res.render('companies/login', {
+                company: req.body
+              })
             } else {
-              req.session.user = company 
+              req.session.user = company
               res.redirect('/')
             }
           })
       }
-    }) 
+    })
     .catch(next)
 }
 
