@@ -67,7 +67,7 @@ passport.use('google-companies',
 
           const newUser = new Company({
             name: profile.displayName,
-            logo: profile.photos.map(image => image.value),
+            logo: profile.photos.map(image => image.value)[0],
             email: profile.emails[0].value,
             validated: true,
             password: profile.provider + Math.random().toString(36).substring(7),

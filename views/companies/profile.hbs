@@ -1,6 +1,7 @@
-<img src="{{company.logo}}" alt="logo">
-<h1>{{company.name}}</h1>
-<p>{{company.description}}</p>
-<h5>{{company.email}}</h5>
-
-{{>calendar dateEvents=dateEvents user=company}}
+<div class="m-h-100">
+  <img src="{{company.logo}}" alt="logo">
+  <h1>{{company.name}}</h1>
+  <p>{{company.description}}</p>
+  <h5>{{company.email}}</h5>
+</div>
+{{>calendar dateEvents=dateEvents}}

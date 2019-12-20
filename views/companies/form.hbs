@@ -1,73 +1,86 @@
-{{#if company.isNew}}
-  <form action="/companies/new" method="POST" enctype="multipart/form-data" class="container">
+<div class="d-flex justify-content-between align-items-center">
+  <div class="col-8 order-md-1 mt-5 p-3 ">
+    {{#if company.isNew}}
+      <form action="/companies/new" method="POST" enctype="multipart/form-data" class="container">
+
+        <div class="form-group">
+          <label for="logo">Logo</label>
+          <input name="logo" type="file" class="form-control-file  {{#if error.Logo }}is-invalid{{/if}}" id="logo"
+            placeholder="Enter Logo url">
+          {{#if error.Logo}}
+            <div class="invalid-feedback">
+              {{error.Logo.message}}
+            </div>
+          {{/if}}
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}" id="password"
+            placeholder="password" value="{{ company.password }}">
+
+          {{#if error.password}}
+            <div class="invalid-feedback">
+              {{error.password.message}}
+            </div>
+          {{/if}}
+        </div>
+    {{else}}
+      <form action="/companies/edit" method="POST" enctype="multipart/form-data" id="form">
+
+        <a href="/companies/edit/logo" class="btn light-blue btn-primary">Change logo</a>
+        <a href="/companies/edit/password" class="btn light-blue btn-primary">Change Password</a>
+    {{/if}}
 
     <div class="form-group">
-      <label for="logo">Logo</label>
-      <input name="logo" type="file" class="form-control-file {{#if error.Logo }}is-invalid{{/if}}" id="logo"
-        placeholder="Enter Logo url">
-      {{#if error.Logo}}
+      <label for="name">Name</label>
+      <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
+        placeholder="Enter name" value="{{ company.name }}">
+
+      {{#if error.name}}
         <div class="invalid-feedback">
-          {{error.Logo.message}}
+          {{error.name.message}}
+        </div>
+      {{/if}}
+    </div>
+
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
+        placeholder="Enter email" value="{{ company.email }}">
+
+      {{#if error.email}}
+        <div class="invalid-feedback">
+          {{error.email.message}}
         </div>
       {{/if}}
     </div>
 
     <div class="form-group">
-      <label for="password">Password</label>
-      <input name="password" type="password" class="form-control {{#if error.password }}is-invalid{{/if}}" id="password"
-        placeholder="password" value="{{ company.password }}">
+      <label for="description">Description</label>
+      <textarea name="description" type="text" class="form-control {{#if error.description }}is-invalid{{/if}}"
+        id="description" placeholder="Enter description" rows="4">{{ company.description }}</textarea>
 
-      {{#if error.password}}
+      {{#if error.description}}
         <div class="invalid-feedback">
-          {{error.password.message}}
+          {{error.description.message}}
         </div>
       {{/if}}
     </div>
-{{else}}
-  <form action="/companies/edit" method="POST" enctype="multipart/form-data" id="form">
+    {{#if user.isNew}}
+      <button type="submit" class="btn light-blue btn-primary">
+        Sign up
+      </button>
+    {{else}}
+      <button type="submit" class="btn light-blue btn-primary" id="submit">
+        Update
+      </button>
+    {{/if}}
+    </form>
+  </div>
 
-    <a href="/companies/edit/logo" class="btn btn-primary">Change logo</a>
-    <a href="/companies/edit/password" class="btn btn-primary">Change Password</a>
-{{/if}}
-
-<div class="form-group">
-  <label for="name">Name</label>
-  <input name="name" type="text" class="form-control {{#if error.name }}is-invalid{{/if}}" id="name"
-    placeholder="Enter name" value="{{ company.name }}">
-
-  {{#if error.name}}
-    <div class="invalid-feedback">
-      {{error.name.message}}
-    </div>
-  {{/if}}
+  <div class="col-4">
+    <img src="../images/undraw_online_organizer_ofxm.svg" style="width:calc(100% - 16px)">
+  </div>
 </div>
-
-
-<div class="form-group">
-  <label for="email">Email</label>
-  <input name="email" type="email" class="form-control {{#if error.email }}is-invalid{{/if}}" id="email"
-    placeholder="Enter email" value="{{ company.email }}">
-
-  {{#if error.email}}
-    <div class="invalid-feedback">
-      {{error.email.message}}
-    </div>
-  {{/if}}
-</div>
-
-<div class="form-group">
-  <label for="description">Description</label>
-  <textarea name="description" type="text" class="form-control {{#if error.description }}is-invalid{{/if}}"
-    id="description" placeholder="Enter description" value="{{ company.description }}" rows="4"></textarea>
-
-  {{#if error.description}}
-    <div class="invalid-feedback">
-      {{error.description.message}}
-    </div>
-  {{/if}}
-</div>
-
-<button type="submit" class="btn btn-primary">
-  Sign up
-</button>
-</form>

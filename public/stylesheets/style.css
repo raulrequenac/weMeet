@@ -43,6 +43,7 @@
 body {
   background-color: #b8a597;
   margin-top: 76px;
+  position: relative;
 }
 
 .line {
@@ -78,8 +79,11 @@ body {
   color: white;
 }
 
-.btn {
-  
+.m-h-100 {
+  min-height: 100vh;
+}
+
+.footer {
 }
 
 #carouselExampleIndicators {

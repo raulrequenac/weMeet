@@ -1,47 +1,20 @@
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
 const Enroll = require('../models/enroll.model');
+const eventsController = require('./events.controller');
 const mailer = require('../config/mailer.config');
 const passport = require('passport');
 
 module.exports.profile = (req, res, next) => {
   const userId = req.params.id;
-  const userEnrollsPromise = Enroll
+  Enroll
     .find({user: userId})
-    .populate('event');
-  const userPromise = User.findById(userId);
-
-  Promise.all([userEnrollsPromise, userPromise])
-    .then(([userEnrolls, user]) => {
+    .populate('event')
+    .then(([userEnrolls]) => {
       const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
-      res.render('users/profile', {dateEvents: _groupEventsByDate(userEvents), user})
+      res.render('users/profile', {dateEvents: eventsController.groupEventsByDate(userEvents)})
     })
     .catch(next);
-}
-_groupEventsByDate = function (events) {
-  const dates = events.map(event => ({
-    month: event.date.getMonth(),
-    year: event.date.getFullYear()
-  }));
-  const uniqueDates = dates.reduce((acc, curr) => {
-    if (!acc.some(elem => elem.month === curr.month && elem.year === curr.year)) {
-      return [...acc, curr]
-    }
-    return acc
-  }, [])
-
-  return uniqueDates.map(date => ({
-    monthYear: `${date.month+1}/${date.year}`,
-    events: events
-      .filter(event => {
-        return event.date.getMonth() === date.month &&
-          event.date.getFullYear() === date.year;
-      })
-      .map(event => ({
-        event: `${event.date.getDate()} -- ${event.name}`,
-        eventId: event.id
-      }))
-  }));
 }
 
 module.exports.new = (_, res) => {
@@ -107,7 +80,10 @@ module.exports.doEdit = (req, res, next) => {
     }, {
       new: true
     })
-    .then(res.redirect('/'))
+    .then(user => {
+      req.session.user = user;
+      res.redirect('/')
+    })
     .catch(next);
 }
 
@@ -118,11 +94,18 @@ module.exports.editImages = (req, res) => {
 }
 
 module.exports.doEditImages = (req, res, next) => {
-  const {images} = req.body;
+  const images = req.files[0] ? req.files.map(file => file.url) : '/images/user-profile.jpg';
 
-  User.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
-    .then(res.redirect('/'))
+  if (images.length) {
+    User.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
+    .then(user => {
+      req.session.user = user
+      res.redirect('/')
+    })
     .catch(next);
+  } else {
+    res.redirect('/')
+  }
 }
 
 module.exports.editPassword = (req, res) => {
@@ -132,16 +115,23 @@ module.exports.editPassword = (req, res) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  const {password} = req.body;
+  const password = req.body.password;
 
-  User.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
-    .then(res.redirect('/'))
+  if (password) {
+    User.findByIdAndUpdate(req.session.user.id, {password}, {new: true})
+    .then(user => {
+      req.session.user = user
+      res.redirect('/')
+    })
     .catch(next);
+  } else {
+    res.redirect('/')
+  }
 }
 
 module.exports.delete = (req, res, next) => {
   User.findByIdAndRemove(req.session.user.id)
-    .then(res.redirect('/login'))
+    .then(res.redirect('/logout'))
     .catch(next);
 }
 

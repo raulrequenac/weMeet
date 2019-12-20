@@ -47,7 +47,7 @@ module.exports.index = (req, res, next) => {
             nextEvent: userEvents[0],
             searchEvents: searchEvents.sort((a, b) => a.date-b.date                                                                                           ),
             userEnrolls,
-            dateEvents: _groupEventsByDate(userEvents),
+            dateEvents: this.groupEventsByDate(userEvents),
             user
           }
         )
@@ -65,8 +65,7 @@ module.exports.index = (req, res, next) => {
             newEvent: new Event(),
             nextEvent: companyEvents[0],
             searchEvents,
-            dateEvents: _groupEventsByDate(companyEvents),
-            user
+            dateEvents: this.groupEventsByDate(companyEvents)
           }
         )
       })
@@ -81,7 +80,7 @@ _findEventsByCriteria = function (criteria) {
     .populate('enroll');
 }
 
-_groupEventsByDate = function (events) {
+module.exports.groupEventsByDate = function (events) {
   const dates = events.map(event => ({
     month: event.date.getMonth(),
     year: event.date.getFullYear()
