@@ -1,11 +1,46 @@
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
-
 const mailer = require('../config/mailer.config');
-const passport = require('passport')
+const passport = require('passport');
 
-module.exports.profile = (req, res) => {
-  res.render('users/profile', {user: req.session.user});
+module.exports.profile = (req, res, next) => {
+  const userId = req.params.id;
+  const userEnrollsPromise = userEnrollsPromise
+    .find({user: userId})
+    .populate('event');
+  const userPromise = User.findById(userId);
+
+  Promise.all([userEnrollsPromise, userPromise])
+    .then(([enrolls, user]) => {
+      const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
+      res.render('users/profile', {dateEvents: _groupEventsByDate(userEvents), user})
+    })
+    .catch(next);
+}
+_groupEventsByDate = function (events) {
+  const dates = events.map(event => ({
+    month: event.date.getMonth(),
+    year: event.date.getFullYear()
+  }));
+  const uniqueDates = dates.reduce((acc, curr) => {
+    if (!acc.some(elem => elem.month === curr.month && elem.year === curr.year)) {
+      return [...acc, curr]
+    }
+    return acc
+  }, [])
+
+  return uniqueDates.map(date => ({
+    monthYear: `${date.month+1}/${date.year}`,
+    events: events
+      .filter(event => {
+        return event.date.getMonth() === date.month &&
+          event.date.getFullYear() === date.year;
+      })
+      .map(event => ({
+        event: `${event.date.getDate()} -- ${event.name}`,
+        eventId: event.id
+      }))
+  }));
 }
 
 module.exports.new = (_, res) => {

@@ -1,7 +1,6 @@
-<div>
-  <form action="/" method="GET" class="mb-4">
-    Date
-    <div class="form-group">
+<div class="container">
+  <form action="/" method="GET" class="mb-4 row">
+    <div class="form-group col">
       <label for="date">From:</label>
       <input name="from" type="date" class="form-control {{#if error.date }}is-invalid{{/if}}" id="from">
 
@@ -12,7 +11,7 @@
       {{/if}}
     </div>
 
-    <div class="form-group">
+    <div class="form-group col">
       <label for="date">To:</label>
       <input name="to" type="date" class="form-control {{#if error.date }}is-invalid{{/if}}" id="to">
 
@@ -23,22 +22,22 @@
       {{/if}}
     </div>
 
-    <div class="form-group">
+    <div class="form-group col">
       <label for="categories">Categories</label>
-      <select name="category">
+      <select name="category" class="custom-select">
         {{#each categories as |category|}}
           <option value="{{category}}">{{category}}</option>
         {{/each}}
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col">
       <label for="price">Max. price</label>
       <input name="price" type="number" class="form-control" id="price" placeholder="€">
     </div>
 
-    <button type="submit" class="btn btn-primary btn-outline btn-sm">
-      Search
+    <button type="submit" class="btn btn-lg  col-1">
+      <i class="fa fa-search" aria-hidden="true"></i>
     </button>
   </form>
 </div>
