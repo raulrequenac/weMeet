@@ -1,13 +1,15 @@
 <div class="general">
-  <section class="white-bg">
-    <div class="container p-5">
-      {{>nextEvent nextEvent=nextEvent}}
-    </div>
-  </section>
-  <section class="section2">
-    <div class="container p-5">
-      {{>searchEvent events=searchEvents enrolls=userEnrolls}}
-    </div>
-  </section>
+  <div class="m-h-100">
+    <section class="white-bg">
+      <div class="container p-5">
+        {{>nextEvent nextEvent=nextEvent}}
+      </div>
+    </section>
+    <section class="section2">
+      <div class="container p-5">
+        {{>searchEvent events=searchEvents enrolls=userEnrolls}}
+      </div>
+    </section>
+  </div>
   {{>calendar dateEvents=dateEvents}}
 </div>
