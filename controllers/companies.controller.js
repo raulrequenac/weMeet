@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Company = require('../models/company.model');
 const Event = require('../models/event.model');
 const mailer = require('../config/mailer.config');
+const passport = require('passport');
+
 
 module.exports.profile = (req, res, next) => {
   Company.findById(req.params.id)
