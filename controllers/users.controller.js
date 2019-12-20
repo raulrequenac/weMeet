@@ -59,12 +59,14 @@ module.exports.doEdit = (req, res, next) => {
   const {
     name,
     email,
+    age,
     bio
   } = res.body;
 
   User.findByIdAndUpdate(req.session.user.id, {
       name,
       email,
+      age, 
       bio
     }, {
       new: true

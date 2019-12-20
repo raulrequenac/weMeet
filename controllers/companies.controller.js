@@ -7,7 +7,7 @@ module.exports.profile = (req, res) => {
 }
 
 module.exports.new = (_, res) => {
-  res.render('companies/new', {
+  res.render('companies/form', {
     company: new Company()
   })
 }
