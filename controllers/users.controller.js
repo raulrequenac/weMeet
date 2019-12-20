@@ -10,7 +10,7 @@ module.exports.profile = (req, res, next) => {
   Enroll
     .find({user: userId})
     .populate('event')
-    .then(([userEnrolls]) => {
+    .then((userEnrolls) => {
       const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
       res.render('users/profile', {dateEvents: eventsController.groupEventsByDate(userEvents)})
     })
