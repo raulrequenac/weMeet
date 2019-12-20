@@ -8,6 +8,8 @@
     <h6 class="d-inline">{{date nextEvent.date}}</h6>
   </div>
   <p>{{nextEvent.description}}</p>
-{{else}}
+{{else if (isUser currentUser)}}
   <h4>You are not enrolled to any event!!</h4>
+{{else}}
+  <h4>You don't any events!!</h4>
 {{/if}}

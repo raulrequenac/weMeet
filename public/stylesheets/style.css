@@ -110,3 +110,7 @@ body {
   border-radius: 50%;
   width:calc(100% - 16px);
 }
+
+.row {
+  margin: 0;
+}
