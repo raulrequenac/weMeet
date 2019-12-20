@@ -21,6 +21,17 @@
   color: #3cadbd !important;
 }
 
+.red-box {
+  background-color: #af5145 !important;
+  border-color: #af5145 !important;
+}
+
+.red-text {
+  color: #af5145 !important;
+  text-align: center;
+}
+
+
 .white-bg {
   background-color: white;
 }
@@ -93,4 +104,9 @@ body {
 .carousel-img {
   width: 352px;
   height: 250px;
+}
+
+.round-image {
+  border-radius: 50%;
+  width:calc(100% - 16px);
 }
