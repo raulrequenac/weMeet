@@ -50,14 +50,14 @@ router.get('/users/:id', authMiddleware.isAuthenticated, usersController.profile
 */
 //Create
 router.get('/companies/new', authMiddleware.isNotAuthenticated, companiesController.new)
-router.post('/companies', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
+router.post('/companies/new', authMiddleware.isNotAuthenticated, uploadCloud.single('logo'), companiesController.create)
 //Update
 router.get('/companies/edit', authMiddleware.isAuthenticated, companiesController.edit)
 router.post('/companies/edit', authMiddleware.isAuthenticated, companiesController.doEdit)
-router.get('/users/edit/images', authMiddleware.isAuthenticated, usersController.editImages)
-router.post('/users/edit/images', authMiddleware.isAuthenticated, usersController.doEditImages)
-router.get('/users/edit/password', authMiddleware.isAuthenticated, usersController.editPassword)
-router.post('/users/edit/password', authMiddleware.isAuthenticated, usersController.doEditPassword)
+router.get('/companies/edit/logo', authMiddleware.isAuthenticated, companiesController.editLogo)
+router.post('/companies/edit/logo', authMiddleware.isAuthenticated, companiesController.doEditLogo)
+router.get('/companies/edit/password', authMiddleware.isAuthenticated, companiesController.editPassword)
+router.post('/companies/edit/password', authMiddleware.isAuthenticated, companiesController.doEditPassword)
 //Delete
 router.get('/companies/delete/', authMiddleware.isAuthenticated, companiesController.delete);
 //Profile

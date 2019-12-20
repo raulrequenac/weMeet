@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
+const Enroll = require('../models/enroll.model');
 const mailer = require('../config/mailer.config');
 const passport = require('passport');
 
 module.exports.profile = (req, res, next) => {
   const userId = req.params.id;
-  const userEnrollsPromise = userEnrollsPromise
+  const userEnrollsPromise = Enroll
     .find({user: userId})
     .populate('event');
   const userPromise = User.findById(userId);
 
   Promise.all([userEnrollsPromise, userPromise])
-    .then(([enrolls, user]) => {
+    .then(([userEnrolls, user]) => {
       const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
       res.render('users/profile', {dateEvents: _groupEventsByDate(userEvents), user})
     })

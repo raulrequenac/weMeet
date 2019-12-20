@@ -103,19 +103,19 @@ module.exports.doEdit = (req, res, next) => {
       new: true
     })
     .then(res.redirect('/'))
-    .catch(error => next(error));
+    .catch(next);
 }
 
-module.exports.editImages = (req, res) => {
-  res.render('companies/editImages', {
+module.exports.editLogo = (req, res) => {
+  res.render('companies/editLogo', {
     company: req.session.user
   })
 }
 
-module.exports.doEditImages = (req, res, next) => {
-  const {images} = req.body;
+module.exports.doEditLogo = (req, res, next) => {
+  const {logo} = req.body;
 
-  Company.findByIdAndUpdate(req.session.user.id, {images}, {new: true})
+  Company.findByIdAndUpdate(req.session.user.id, {logo}, {new: true})
     .then(res.redirect('/'))
     .catch(next);
 }
