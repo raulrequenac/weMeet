@@ -21,6 +21,8 @@ passport.use('google-users',
             return;
           }
 
+          console.log(profile)
+
           const newUser = new User({
             name: profile.displayName,
             images: profile.photos.map(image => image.value),
