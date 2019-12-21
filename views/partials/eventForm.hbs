@@ -4,7 +4,15 @@
       <form action="/events/new" method="POST" class="mb-4" enctype="multipart/form-data">
         <div class="form-group">
           <label for="images">Images</label>
-          <input name="images" type="file" class="form-control-file " placeholder="Enter images url" multiple>
+          <div class="file-field">
+            <div class="btn red-box btn-sm float-left h-38">
+              <span class="">Choose file</span>
+              <input type="file" class="d-none">
+            </div>
+            <div class="file-path-wrapper">
+              <input name="images" type="text" class="file-path validate h-38 {{#if error.images }}is-invalid{{/if}}" placeholder="Upload your files" multiple>
+            </div>
+          </div>
           {{#if error.images}}
             <div class="invalid-feedback">
               {{error.images.message}}
@@ -40,21 +48,23 @@
 
     <div class="form-group">
       <label for="location">Location</label>
-      <input name="location" type="text" class="form-control" id="location" placeholder="Location" value="{{event.location}}">
+      <input name="location" type="text" class="form-control" id="location" placeholder="Location"
+        value="{{event.location}}">
     </div>
 
     <div class="form-group">
       <label for="categories">Categories</label>
       <select name="category" class="custom-select">
-          {{#each categories as |category|}}
-            <option value="{{category}}">{{category}}</option>
-          {{/each}}
-        </select>
+        {{#each categories as |category|}}
+          <option value="{{category}}">{{category}}</option>
+        {{/each}}
+      </select>
     </div>
 
     <div class="form-group">
       <label for="capacity">Capacity</label>
-      <input name="capacity" type="number" class="form-control" id="capacity" placeholder="Capacity" value="{{event.capacity}}">
+      <input name="capacity" type="number" class="form-control" id="capacity" placeholder="Capacity"
+        value="{{event.capacity}}">
     </div>
 
     <div class="form-group">
@@ -73,15 +83,15 @@
     {{/if}}
     </form>
   </div>
-{{#if event.isNew}}
-  <div class="col-4">
-    <h1 class="red-text">New Event</h1>
-    <img src="/images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
-  </div>
-{{else}}
-  <div class="col-4">
-    <h1 class="red-text">Edit Event</h1>
-    <img src="/images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
-  </div>
-{{/if}}
+  {{#if event.isNew}}
+    <div class="col-4">
+      <h1 class="red-text">New Event</h1>
+      <img src="/images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
+    </div>
+  {{else}}
+    <div class="col-4">
+      <h1 class="red-text">Edit Event</h1>
+      <img src="/images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
+    </div>
+  {{/if}}
 </div>

@@ -1,19 +1,27 @@
 <div class="d-flex justify-content-between align-items-center p-3">
-  <div class="col-8 order-md-1 mt-5 p-3 ">     
+  <div class="col-8 order-md-1 mt-5 p-3 ">
     <form action="/companies/edit/logo" method="POST" enctype="multipart/form-data" id="form">
       <div class="form-group">
-          <label for="logo">Logo</label>
-          <input name="logo" type="file" class="form-control-file {{#if error.Logo }}is-invalid{{/if}}" id="logo"
-            placeholder="Enter Logo url">
-          {{#if error.Logo}}
-            <div class="invalid-feedback">
-              {{error.Logo.message}}
-            </div>
-          {{/if}}
+        <label for="logo">Logo</label>
+        <div class="file-field">
+          <div class="btn red-box btn-sm float-left h-38">
+            <span class="">Choose file</span>
+            <input type="file" class="d-none">
+          </div>
+          <div class="file-path-wrapper">
+            <input name="logo" type="text" class="file-path validate h-38 {{#if error.Logo }}is-invalid{{/if}}"
+              placeholder="Upload your files" multiple>
+          </div>
         </div>
+        {{#if error.Logo}}
+          <div class="invalid-feedback">
+            {{error.Logo.message}}
+          </div>
+        {{/if}}
+      </div>
 
       <button type="submit" class="btn light-blue btn-primary" id="submit">
-        Update 
+        Update
       </button>
     </form>
   </div>

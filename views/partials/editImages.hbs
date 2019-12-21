@@ -1,16 +1,24 @@
-  <div class="form-group">
-    <label for="images">Images (6 max.)</label>
-    <input name="images" type="file" class="form-control-file {{#if error.images }}is-invalid{{/if}} " id="images"
-      placeholder="Enter images url" multiple>
-
-    {{#if error.images}}
-      <div class="invalid-feedback">
-        {{error.images.message}}
-      </div>
-    {{/if}}
+<div class="form-group">
+  <label for="images">Images (6 max.)</label>
+  <div class="file-field">
+    <div class="btn red-box btn-sm float-left h-38">
+      <span class="">Choose file</span>
+      <input type="file" class="d-none">
+    </div>
+    <div class="file-path-wrapper">
+      <input name="images" type="text" class="file-path validate h-38 {{#if error.images }}is-invalid{{/if}}"
+        placeholder="Upload your files" multiple>
+    </div>
   </div>
 
-  <button type="submit" class="btn light-blue btn-primary" id="submit">
-    Update
-  </button>
+  {{#if error.images}}
+    <div class="invalid-feedback">
+      {{error.images.message}}
+    </div>
+  {{/if}}
+</div>
+
+<button type="submit" class="btn light-blue btn-primary" id="submit">
+  Update
+</button>
 </form>
