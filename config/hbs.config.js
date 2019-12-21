@@ -11,6 +11,7 @@ hbs.registerHelper('date', (date) => {
 })
 
 hbs.registerHelper('getProfileImage', (user) => {
+  console.log(user)
   return user.logo || user.images[0];
 })
 

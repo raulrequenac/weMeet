@@ -1,15 +1,26 @@
-{{>carousel element=event}}
-<h1>{{event.name}}</h1>
-<p>{{event.description}}</p>
-<h5>{{event.location}}</h5>
-<h2>{{date event.date}}</h2>
-<p>
-  {{#each event.category as |category|}}
-  {{category}}, 
-  {{/each}}
-</p>
-<h5>{{event.capacity}}</h5>
-<h3>{{event.price}}</h3>
-{{#if (equals currentUser event)}}
-  <a href="/events/edit/{{event.id}}" class="btn btn-success">Edit</a>
-{{/if}}
+<div class="justify-content-between align-items-center mt-100 d-3">
+  {{>carousel element=event}}
+  <div class=" d-flex flex-column container col-10 order-md-1 ">
+    <h1 class="display-4 red-text">{{event.name}}<h1>
+    <p><small>{{event.description}}</small></p>
+    <h5 class="light-blue-text">Where?</h5>
+    <h5>{{event.location}}</h5>
+    <h5 class="light-blue-text">When?</h5>
+    <h4>{{date event.date}}</h4>
+    <h5 class="light-blue-text">Theme:</h5>
+    <p>
+      {{#each event.category as |category|}}
+      {{category}}, 
+      {{/each}}
+    </p>
+    <h5 class="light-blue-text">Capacity</h5>
+    <h5>{{event.capacity}}</h5>
+    <h5 class="light-blue-text">Price:</h5>
+    <h5>{{event.price}}€</h5>
+    {{#if (equals currentUser event)}}
+      <a href="/events/edit/{{event.id}}" class="btn red-box btn-success">Edit</a>
+    {{/if}}
+  </div>
+</div>
+
+
