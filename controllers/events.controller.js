@@ -41,11 +41,11 @@ module.exports.index = (req, res, next) => {
 
     Promise.all([searchEventsPromise, userEnrollsPromise])
       .then(([searchEvents, userEnrolls]) => {
-        const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date ).slice(0, 10);
+        const userEvents = userEnrolls.map(enroll => enroll.event).sort((a, b) => a.date - b.date).slice(0, 10);
         res.render(
           `users/index`, {
             nextEvent: userEvents[0],
-            searchEvents: searchEvents.sort((a, b) => a.date-b.date                                                                                           ),
+            searchEvents: searchEvents.sort((a, b) => a.date - b.date),
             userEnrolls,
             dateEvents: this.groupEventsByDate(userEvents),
             user
@@ -64,7 +64,7 @@ module.exports.index = (req, res, next) => {
           `companies/index`, {
             newEvent: new Event(),
             nextEvent: companyEvents[0],
-            searchEvents,
+            searchEvents: searchEvents.sort((a, b) => a.date - b.date),
             dateEvents: this.groupEventsByDate(companyEvents)
           }
         )
@@ -118,7 +118,6 @@ module.exports.create = (req, res, next) => {
     capacity: req.body.capacity,
     price: req.body.price,
   })
-  console.log(event)
 
   event.save()
     .then(() => {
@@ -137,13 +136,14 @@ module.exports.create = (req, res, next) => {
 
 module.exports.edit = (req, res, next) => {
   const id = req.params.id;
-  const user = req.session.user;
 
-  Event.find({
-      company: user,
-      id: id
+  Event.findById(id)
+    .then(event => {
+      console.log(event);
+      res.render('events/edit', {
+        event
+      })
     })
-    .then(event => res.render('events/edit', event))
     .catch(next)
 }
 
@@ -221,6 +221,7 @@ module.exports.enroll = (req, res, next) => {
 
 module.exports.show = (req, res, next) => {
   Event.findById(req.params.id)
+  .populate('company')
     .then(event => {
       if (event) {
         res.render('events/show', {

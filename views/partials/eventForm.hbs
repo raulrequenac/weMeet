@@ -1,6 +1,5 @@
 <div class="d-flex justify-content-between align-items-center">
   <div class="col-8 order-md-1 mt-5">
-    
     {{#if event.isNew}}
       <form action="/events/new" method="POST" class="mb-4" enctype="multipart/form-data">
         <div class="form-group">
@@ -14,23 +13,23 @@
         </div>
     {{else}}
       <form action="/events/edit/{{event.id}}" method="POST" class="mb-4" enctype="multipart/form-data"></form>
-      <a href="/events/edit/images{{event.id}}" class="btn btn-primary">Change images</a>
+      <a href="/events/edit/images{{event.id}}" class="btn red-box btn-primary">Change images</a>
     {{/if}}
     <div class="form-group">
       <label for="name">Event Name</label>
-      <input name="name" type="text" class="form-control" id="name" placeholder="Enter Name">
+      <input name="name" type="text" class="form-control" id="name" placeholder="Enter Name" value="{{event.name}}">
     </div>
 
     <div class="form-group">
       <label for="name">Description</label>
       <textarea placeholder="Description" name="description" type="text" class="form-control" id="description"
-        rows="3"></textarea>
+        rows="3">{{event.description}}</textarea>
     </div>
 
     <div class="form-group">
       <label for="date">Date</label>
       <input name="date" type="date" class="form-control {{#if error.date }}is-invalid{{/if}}" id="date"
-        placeholder="Enter date" value="{{ event.date }}">
+        placeholder="Enter date" value="{{dateValue event.date }}">
 
       {{#if error.date}}
         <div class="invalid-feedback">
@@ -41,12 +40,12 @@
 
     <div class="form-group">
       <label for="location">Location</label>
-      <input name="location" type="text" class="form-control" id="location" placeholder="Location">
+      <input name="location" type="text" class="form-control" id="location" placeholder="Location" value="{{event.location}}">
     </div>
 
     <div class="form-group">
       <label for="categories">Categories</label>
-      <select name="category">
+      <select name="category" class="custom-select">
           {{#each categories as |category|}}
             <option value="{{category}}">{{category}}</option>
           {{/each}}
@@ -55,12 +54,12 @@
 
     <div class="form-group">
       <label for="capacity">Capacity</label>
-      <input name="capacity" type="number" class="form-control" id="capacity" placeholder="Capacity">
+      <input name="capacity" type="number" class="form-control" id="capacity" placeholder="Capacity" value="{{event.capacity}}">
     </div>
 
     <div class="form-group">
       <label for="price">Price</label>
-      <input name="price" type="number" class="form-control" id="price" placeholder="Price">
+      <input name="price" type="number" class="form-control" id="price" placeholder="Price" value="{{event.price}}">
     </div>
 
     {{#if event.isNew}}
@@ -68,15 +67,21 @@
         Create Event
       </button>
     {{else}}
-      <button type="submit" class="btn light-blue btn-primary btn-outline btn-sm">
+      <button type="submit" class="btn red-box btn-primary btn-outline btn-sm">
         Edit Event
       </button>
     {{/if}}
     </form>
   </div>
-
+{{#if event.isNew}}
   <div class="col-4">
     <h1 class="red-text">New Event</h1>
-    <img src="../images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
+    <img src="/images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
   </div>
+{{else}}
+  <div class="col-4">
+    <h1 class="red-text">Edit Event</h1>
+    <img src="/images/undraw_start_building_vqhd.svg" style="width:calc(100% - 16px)">
+  </div>
+{{/if}}
 </div>
