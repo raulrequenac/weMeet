@@ -4,7 +4,7 @@
 
 {{#if nextEvent}}
   <div class="d-flex justify-content-between">
-    <h2 class="d-inline"><a href="/events/{{nextEvent.id}}">{{nextEvent.name}}</a></h2>
+    <h2 class="d-inline"><a href="/events/{{nextEvent.id}}">{{nextEvent.name}} - {{nextEvent.company.name}} ({{nextEvent.location}})</a></h2>
     <h6 class="d-inline">{{date nextEvent.date}}</h6>
   </div>
   <p>{{nextEvent.description}}</p>

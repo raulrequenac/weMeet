@@ -221,6 +221,7 @@ module.exports.enroll = (req, res, next) => {
 
 module.exports.show = (req, res, next) => {
   Event.findById(req.params.id)
+  .populate('company')
     .then(event => {
       if (event) {
         res.render('events/show', {

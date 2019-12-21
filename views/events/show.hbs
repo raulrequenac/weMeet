@@ -1,7 +1,7 @@
 {{>carousel element=event}}
 <h1>{{event.name}}</h1>
 <p>{{event.description}}</p>
-<h5>{{event.location}}</h5>
+<h5>{{event.company.name}} - {{event.location}}</h5>
 <h2>{{date event.date}}</h2>
 <p>
   {{#each event.category as |category|}}
