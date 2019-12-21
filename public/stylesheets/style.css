@@ -56,7 +56,7 @@
 
 body {
   background-color: #b8a597;
-  margin-top: 76px;
+  margin-top: 70px;
   position: relative;
 }
 
@@ -114,6 +114,6 @@ body {
   width:calc(100% - 16px);
 }
 
-.row {
-  margin: 0;
+.mt-100{
+  margin-top: 100px;
 }
