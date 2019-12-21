@@ -64,7 +64,7 @@ module.exports.index = (req, res, next) => {
           `companies/index`, {
             newEvent: new Event(),
             nextEvent: companyEvents[0],
-            searchEvents,
+            searchEvents: searchEvents.sort((a, b) => a.date - b.date),
             dateEvents: this.groupEventsByDate(companyEvents)
           }
         )
@@ -118,7 +118,6 @@ module.exports.create = (req, res, next) => {
     capacity: req.body.capacity,
     price: req.body.price,
   })
-  console.log(event)
 
   event.save()
     .then(() => {
